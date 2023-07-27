@@ -4693,24 +4693,32 @@
     ]
   },
   "packageFolders": {
-    "/home/jared/.nuget/packages/": {}
+    "C:\\Users\\jholston\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/jared/Developer/PhoenixCalculator_Avallon/PhoenixCalculator_Avallon.csproj",
+      "projectUniqueName": "C:\\Users\\jholston\\Developer\\Phoenix Calculator App\\PhoenixCalculator\\PhoenixCalculator_Avallon.csproj",
       "projectName": "PhoenixCalculator_Avallon",
-      "projectPath": "/home/jared/Developer/PhoenixCalculator_Avallon/PhoenixCalculator_Avallon.csproj",
-      "packagesPath": "/home/jared/.nuget/packages/",
-      "outputPath": "/home/jared/Developer/PhoenixCalculator_Avallon/obj/",
+      "projectPath": "C:\\Users\\jholston\\Developer\\Phoenix Calculator App\\PhoenixCalculator\\PhoenixCalculator_Avallon.csproj",
+      "packagesPath": "C:\\Users\\jholston\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\jholston\\Developer\\Phoenix Calculator App\\PhoenixCalculator\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "/home/jared/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\jholston\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net6.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -4765,18 +4773,12 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
-        "downloadDependencies": [
-          {
-            "name": "Microsoft.NETCore.App.Host.linux-x64",
-            "version": "[6.0.20, 6.0.20]"
-          }
-        ],
         "frameworkReferences": {
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/lib64/dotnet/sdk/7.0.109/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.306\\RuntimeIdentifierGraph.json"
       }
     }
   }
