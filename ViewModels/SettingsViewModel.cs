@@ -1,4 +1,5 @@
 ﻿using Avalonia.Interactivity;
+using PhoenixCalculator_Avallon.Models;
 using ReactiveUI;
 using System.Reactive;
 
@@ -6,38 +7,29 @@ namespace PhoenixCalculator_Avallon.ViewModels
 {
     public class SettingsViewModel : ViewModelBase
     {
+       
+
         //Declarations
+        DBModel model;
         public string dbname = "";
         public string dbpassword = "";
         public string dbusername = "";
-       // public ReactiveCommand<Unit, Unit> UpdateSettingsClicked { get; }
 
-        //Constructor
-       // public SettingsViewModel()
-        //{
-            //UpdateSettingsClicked = ReactiveCommand.Create(UpdateSettings);
-        //}
-        //}
+
+        public SettingsViewModel(DBModel model)
+        {
+            this.model = model;
+        }
 
         //Command Functions
         public void UpdateSettings()
         {
-            ConnectDB();
-            PopulateFromDB();
+            
         }
 
         //Public Accessor Functions
     
 
-        //Private Functions
-        private void ConnectDB()
-        {
-
-        }
-
-        private void PopulateFromDB()
-        {
-
-        }
+        
     }
 }

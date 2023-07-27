@@ -1,11 +1,16 @@
 ﻿using Avalonia.Interactivity;
+using PhoenixCalculator_Avallon.Models;
 using System.Linq;
 
 namespace PhoenixCalculator_Avallon.ViewModels;
 
 public class PanelCostViewModel : ViewModelBase
 {
+
+    
     //Declarations
+    //Model Reference
+    private DBModel model;
     //Public variables set by the user
     public int PanelCost4by8Total;
     public int PanelCost4by8sqft;
@@ -24,6 +29,11 @@ public class PanelCostViewModel : ViewModelBase
     private int Side24by8Cost;
     private int LayupCharge4by8;
     private int SpecialFinish4by8Cost;
+
+    public PanelCostViewModel(DBModel model)
+    {
+        this.model = model;
+    }
 
     public void UpdatePanelCost()
     {
