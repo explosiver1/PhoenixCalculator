@@ -20,3 +20,9 @@ build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
 [C:/Users/jholston/Developer/Phoenix Calculator App/PhoenixCalculator/Views/MainWindow.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[C:/Users/jholston/Developer/Phoenix Calculator App/PhoenixCalculator/Views/PanelCostView.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[C:/Users/jholston/Developer/Phoenix Calculator App/PhoenixCalculator/Views/SettingsView.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml

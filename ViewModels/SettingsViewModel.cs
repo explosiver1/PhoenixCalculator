@@ -11,24 +11,25 @@ namespace PhoenixCalculator_Avallon.ViewModels
 
         //Declarations
         DBModel model;
-        public string dbname = "";
-        public string dbpassword = "";
-        public string dbusername = "";
+        public string dbname;
+        public string dbpassword;
+        public string dbusername;
 
 
-        public SettingsViewModel(DBModel model)
-        {
+   
+        public SettingsViewModel(DBModel model) {
             this.model = model;
+            dbname = "";
+            dbpassword = "";
+            dbusername = "";
         }
-
-        //Command Functions
+   
         public void UpdateSettings()
         {
             
         }
 
-        //Public Accessor Functions
-    
+  
 
         
     }

@@ -23,4 +23,14 @@
     <PackageReference Include="Avalonia.ReactiveUI" Version="11.0.1" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
   </ItemGroup>
+
+
+  <ItemGroup>
+    <Compile Update="Views\PanelCostView.axaml.cs">
+      <DependentUpon>PanelCostView.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\SettingsView.axaml.cs">
+      <DependentUpon>SettingsView.axaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
 </Project>

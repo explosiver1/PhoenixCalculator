@@ -44,60 +44,39 @@ namespace PhoenixCalculator_Avallon.Models
             isWindowsAuth = true;
             useLocalFile = false;
             cnn = new SqlConnection();
+
             if (serverName != "")
             {
-                if (isWindowsAuth) { connectionString = "Server=" + serverName + ";" + "Database=master;Trusted_Connection=True;"; }
+                if (isWindowsAuth) { connectionString = "Server=" + serverName + ";" + "Database=master;Integrated Security=true;Encrypt=true;"; }
                 else { connectionString = "Server=" + serverName + ";" + "Database=master;User Id=" + un + ";Password=" + pw + ";"; }
 
+            }
+            else
+            {
+                connectionString = "";
+            }
+
+        }
+
+        public bool TestDBConn()
+        {
                 try
                 {
                     cnn.Open();
                     Console.WriteLine("SQL Connection Works");
                     cnn.Close();
+                    return true;
                 }
                 catch (Exception e)
                 {
                     Console.WriteLine(e.ToString());
                     Console.WriteLine("We dun goofed");
                 }
-            }
-            else
-            {
-                connectionString = "";
-            }
+            return false;
+         
         }
 
-        /*
-        public void SetupDB(string db)
-        {
-            if (cnn != null)
-            {
-                SqlCommand cmd = cnn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "USE master;\r\ngo\r\nIF (db_id('[DBNAME]') is null)\r\n\tCREATE DATABASE [DBNAME];\r\ngo\r\nUSE [DBNAME];";
-                cnn.Open();
-                cnn.Close();
-            }
-        } */
-
-        public void UpdateModel()
-        {
-
-        }
-
-        public string GetPanelData()
-        {
-            return "";
-        }
-
-        //Destructor
-       /* ~DBModel() 
-        { 
-            if (cnn != null)
-            {
-                cnn.Close();
-            }
-        }*/
+       
 
     }
 }

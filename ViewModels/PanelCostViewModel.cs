@@ -1,5 +1,6 @@
 ﻿using Avalonia.Interactivity;
 using PhoenixCalculator_Avallon.Models;
+using System;
 using System.Linq;
 
 namespace PhoenixCalculator_Avallon.ViewModels;
@@ -8,20 +9,20 @@ public class PanelCostViewModel : ViewModelBase
 {
 
     
-    //Declarations
-    //Model Reference
-    private DBModel model;
+  
+    public DBModel model;
     //Public variables set by the user
     public int PanelCost4by8Total;
     public int PanelCost4by8sqft;
     public int PanelCost5x12Total;
     public int PanelCost5x12sqft;
-    public string WoodMaterialType = "";
+    public string WoodMaterialType = "Burrito";
     public string Side1LaminateType = "";
     public string Side2LaminateType = "";
     public bool IsPlywood;
     public string SpecialFinish = "";
     public int SpecialFinishNum;
+    public string test;
 
     //private variables set from queries
     private int Wood4by8Cost;
@@ -29,14 +30,15 @@ public class PanelCostViewModel : ViewModelBase
     private int Side24by8Cost;
     private int LayupCharge4by8;
     private int SpecialFinish4by8Cost;
-
-    public PanelCostViewModel(DBModel model)
+    
+    public PanelCostViewModel(DBModel model) 
     {
+        test = "Burrito";
         this.model = model;
     }
-
-    public void UpdatePanelCost()
+   public void UpdatePanelCost()
     {
+        Console.WriteLine("UpdatePanelCost Called");
         PanelQuery();
         PanelCost4by8Total = CalculatePanelCost4by8Total();
         PanelCost4by8sqft = CalculatePanelCost4by8sqft();
