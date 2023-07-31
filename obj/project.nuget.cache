@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "EfqT8DJF8PDjHAztIBQGBxy3CLRGNkaHOIvgdETLlK3lTcOXyVG8MSAlrUh9eIsEv1WnDo+ApCnAUKJE4217Ow==",
+  "dgSpecHash": "/+8uZiUXfay6isMgQxJ1m2v5GGQ/ePJrz/6G4Y1gk9jDrdZuYNB3j7xyWZfcS4DEl5lQznm9nvT4/WQ63fdE9w==",
   "success": true,
-  "projectFilePath": "C:\\Users\\jholston\\Developer\\Phoenix Calculator App\\PhoenixCalculator\\PhoenixCalculator_Avallon.csproj",
+  "projectFilePath": "C:\\Users\\jholston\\Developer\\PhoenixCalculator\\PhoenixCalculator_Avallon.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\jholston\\.nuget\\packages\\avalonia\\11.0.1\\avalonia.11.0.1.nupkg.sha512",
     "C:\\Users\\jholston\\.nuget\\packages\\avalonia.angle.windows.natives\\2.1.0.2023020321\\avalonia.angle.windows.natives.2.1.0.2023020321.nupkg.sha512",

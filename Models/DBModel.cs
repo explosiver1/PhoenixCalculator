@@ -12,71 +12,67 @@ namespace PhoenixCalculator_Avallon.Models
 {
     public class DBModel 
     {
-        string serverName;
-        string dbname = "";
-        string un = "";
-        string pw = "";
-        bool isWindowsAuth;
-        bool useLocalFile;
-        string connectionString;
-        SqlConnection cnn;
+        private string sqlConnString;
 
-        public void ConnectToDB(string connectionString, string queryString)
-        {
-            using (cnn = new SqlConnection(connectionString)) 
-            {
-                SqlCommand command = new SqlCommand(queryString, cnn);
-                command.Connection.Open();
-                command.ExecuteNonQuery();
-            }
-        }
+        private static DBModel _instance;
+     
+
+      
 
 
         //Constructor
         public DBModel()
         {
-            //Load values from a configuration file. 
-            //I'll write this part later once I get other pieces working. 
-            serverName = @".\SQLExpress";
-            dbname = "";
-            un = "";
-            pw = "";
-            isWindowsAuth = true;
-            useLocalFile = false;
-            cnn = new SqlConnection();
+            sqlConnString = "";
+            TestDBConn();
+        }
 
-            if (serverName != "")
+        public static DBModel GetInstance()
+        {
+            if (_instance == null)
             {
-                if (isWindowsAuth) { connectionString = "Server=" + serverName + ";" + "Database=master;Integrated Security=true;Encrypt=true;"; }
-                else { connectionString = "Server=" + serverName + ";" + "Database=master;User Id=" + un + ";Password=" + pw + ";"; }
-
+                _instance = new DBModel();
             }
-            else
+            return _instance;
+        }
+
+        public void BuildConnString(string server, bool winAuth, string un, string pw)
+        {
+            SqlConnectionStringBuilder sb = new SqlConnectionStringBuilder();
+            if (winAuth)
             {
-                connectionString = "";
+                sb["Data Source"] = server;
+                sb["integrated security"] = true;
+                sqlConnString = sb.ConnectionString;
+                
+            } else
+            {
+                sb["Server"] = server;
+                sb["User Id"] = un;
+                sb["Password"] = pw;
+                sqlConnString = sb.ConnectionString;
             }
-
+            
         }
 
         public bool TestDBConn()
         {
-                try
+            try
+            {
+                using (SqlConnection cnn = new SqlConnection(sqlConnString))
                 {
                     cnn.Open();
                     Console.WriteLine("SQL Connection Works");
                     cnn.Close();
                     return true;
                 }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.ToString());
-                    Console.WriteLine("We dun goofed");
-                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                Console.WriteLine("We dun goofed");
+            }
             return false;
-         
         }
-
-       
-
     }
 }

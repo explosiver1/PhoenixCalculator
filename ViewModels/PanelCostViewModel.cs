@@ -1,16 +1,17 @@
 ﻿using Avalonia.Interactivity;
 using PhoenixCalculator_Avallon.Models;
 using System;
+using System.Reactive;
 using System.Linq;
+using ReactiveUI;
 
 namespace PhoenixCalculator_Avallon.ViewModels;
 
-public class PanelCostViewModel : ViewModelBase
+public class PanelCostViewModel : ReactiveObject
 {
-
-    
-  
+    //
     public DBModel model;
+
     //Public variables set by the user
     public int PanelCost4by8Total;
     public int PanelCost4by8sqft;
@@ -22,7 +23,22 @@ public class PanelCostViewModel : ViewModelBase
     public bool IsPlywood;
     public string SpecialFinish = "";
     public int SpecialFinishNum;
-    public string test;
+
+
+    private string test = "";
+    public string Test
+    {
+            get => test;
+            set => this.RaiseAndSetIfChanged(ref test, value);
+       
+    }
+
+    private string connStatus = "";
+    public string ConnectionStatus
+    {
+        get => connStatus;
+        set => this.RaiseAndSetIfChanged(ref connStatus, value);
+    }
 
     //private variables set from queries
     private int Wood4by8Cost;
@@ -31,10 +47,17 @@ public class PanelCostViewModel : ViewModelBase
     private int LayupCharge4by8;
     private int SpecialFinish4by8Cost;
     
-    public PanelCostViewModel(DBModel model) 
+    public PanelCostViewModel() 
     {
-        test = "Burrito";
-        this.model = model;
+        Test = "Burrito";
+        model = DBModel.GetInstance();
+        if(model.TestDBConn())
+        {
+            ConnectionStatus = "Up";
+        } else
+        {
+            ConnectionStatus = "False";
+        }
     }
    public void UpdatePanelCost()
     {

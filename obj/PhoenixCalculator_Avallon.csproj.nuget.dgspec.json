@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\jholston\\Developer\\Phoenix Calculator App\\PhoenixCalculator\\PhoenixCalculator_Avallon.csproj": {}
+    "C:\\Users\\jholston\\Developer\\PhoenixCalculator\\PhoenixCalculator_Avallon.csproj": {}
   },
   "projects": {
-    "C:\\Users\\jholston\\Developer\\Phoenix Calculator App\\PhoenixCalculator\\PhoenixCalculator_Avallon.csproj": {
+    "C:\\Users\\jholston\\Developer\\PhoenixCalculator\\PhoenixCalculator_Avallon.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\jholston\\Developer\\Phoenix Calculator App\\PhoenixCalculator\\PhoenixCalculator_Avallon.csproj",
+        "projectUniqueName": "C:\\Users\\jholston\\Developer\\PhoenixCalculator\\PhoenixCalculator_Avallon.csproj",
         "projectName": "PhoenixCalculator_Avallon",
-        "projectPath": "C:\\Users\\jholston\\Developer\\Phoenix Calculator App\\PhoenixCalculator\\PhoenixCalculator_Avallon.csproj",
+        "projectPath": "C:\\Users\\jholston\\Developer\\PhoenixCalculator\\PhoenixCalculator_Avallon.csproj",
         "packagesPath": "C:\\Users\\jholston\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\jholston\\Developer\\Phoenix Calculator App\\PhoenixCalculator\\obj\\",
+        "outputPath": "C:\\Users\\jholston\\Developer\\PhoenixCalculator\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

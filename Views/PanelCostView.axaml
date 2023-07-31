@@ -22,9 +22,10 @@
                             <RowDefinition Height="20"/>
                         </Grid.RowDefinitions>
 
+                        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Path=Test}" />
+                        <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Path=ConnectionStatus}" />
                         
-                        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding test}"/>
-                        <Button Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Content="Calculate"/>
+                        
                         
 
                     </Grid>

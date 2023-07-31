@@ -13,15 +13,11 @@
    
 
     <TabControl>
-        <TabItem Header="Panel Cost" DataContext="{Binding panelCostViewModel}" x:Name="PanelCost">
-
-
-            <StackPanel>
-                <TextBlock Text="{Binding test}"/>
-            </StackPanel>
+        <TabItem Header="Panel Cost">
+            <views:PanelCostView/>
         </TabItem>
 
-        <TabItem Header="Settings" DataContext="{Binding settingsViewModel}" x:Name="Settings">
+        <TabItem Header="Settings">
             <views:SettingsView />
         </TabItem>
         
