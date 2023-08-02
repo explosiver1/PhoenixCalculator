@@ -12,59 +12,76 @@ public class SettingsViewModel : ReactiveObject
 
 
         //Declarations
-        private DBModel _model;
+        private DBModel model;
         private string _dbname = "";
-        public string DBName
+        public string dbname
         {
             get => _dbname;
             set => this.RaiseAndSetIfChanged(ref _dbname, value);
         }
         private string _dbpassword = "";
-        public string DBPassword
+        public string dbpassword
         {
             get => _dbpassword;
             set => this.RaiseAndSetIfChanged(ref _dbpassword, value);
         }
         private string _dbusername = "";
-        public string DBUsername
+        public string dbusername
         {
             get => _dbusername;
             set => this.RaiseAndSetIfChanged(ref _dbusername, value);
         }
         private bool _useWindowsAuth = true;
-
-        public bool UseWindowsAuth
+        public bool useWindowsAuth
         {
             get => _useWindowsAuth;
             set => this.RaiseAndSetIfChanged(ref  _useWindowsAuth, value);
         }
-
-        private string connStatus = "";
-        public string ConnectionStatus
+        private string _connStatus = "Down";
+        public string connectionStatus
         {
-            get => connStatus;
-            set => this.RaiseAndSetIfChanged(ref connStatus, value);
+            get => _connStatus;
+            set => this.RaiseAndSetIfChanged(ref _connStatus, value);
         }
 
 
         public SettingsViewModel() {
 
-            _model = DBModel.GetInstance();
-            UpdateSettings();
+            model = DBModel.GetInstance();
+            dbname = model.settings.server;
+            dbpassword = model.settings.pw;
+            dbusername = model.settings.un;
+            useWindowsAuth = model.settings.winAuth;
+            if (model.TestDBConn())
+            {
+                connectionStatus = "Up";
+            }
+            else
+            {
+                connectionStatus = "Down";
+            }
+
+
         }
    
         public void UpdateSettings()
         {
-        _model.BuildConnString(DBName, UseWindowsAuth, DBUsername, DBPassword);
-            if (_model.TestDBConn())
+            //Settings are encapsulated in an object for JSON serialization. 
+            model.settings.server = dbname;
+            model.settings.pw = dbpassword;
+            model.settings.un = dbusername;
+            model.settings.winAuth = useWindowsAuth;
+            model.SetConnString();
+            model.SaveSettingsToFile();
+            if (model.TestDBConn())
             {
-                ConnectionStatus = "Up";
+                connectionStatus = "Up";
             } else
             {
-                ConnectionStatus = "Down";
+                connectionStatus = "Down";
             }
-
             
         }
+  
 }
 

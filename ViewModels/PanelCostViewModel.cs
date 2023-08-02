@@ -11,86 +11,106 @@ public class PanelCostViewModel : ReactiveObject
 {
     //
     public DBModel model;
-
-    //Public variables set by the user
-    public int PanelCost4by8Total;
-    public int PanelCost4by8sqft;
-    public int PanelCost5x12Total;
-    public int PanelCost5x12sqft;
-    public string WoodMaterialType = "Burrito";
-    public string Side1LaminateType = "";
-    public string Side2LaminateType = "";
-    public bool IsPlywood;
-    public string SpecialFinish = "";
-    public int SpecialFinishNum;
+    public WoodPanel[] woodPanels;
 
 
-    private string test = "";
-    public string Test
+    private string _test = "";
+    public string test
     {
-            get => test;
-            set => this.RaiseAndSetIfChanged(ref test, value);
+            get => _test;
+            set => this.RaiseAndSetIfChanged(ref _test, value);
        
     }
 
-    private string connStatus = "";
-    public string ConnectionStatus
+    private string _woodMaterialType = "";
+    public string woodMaterialType
     {
-        get => connStatus;
-        set => this.RaiseAndSetIfChanged(ref connStatus, value);
+        get => _woodMaterialType;
+        set => this.RaiseAndSetIfChanged(ref _woodMaterialType, value);
     }
 
-    //private variables set from queries
-    private int Wood4by8Cost;
-    private int Side14by8Cost;
-    private int Side24by8Cost;
-    private int LayupCharge4by8;
-    private int SpecialFinish4by8Cost;
+    private string _thickness = "";
+    public string thickness
+    {
+        get => _thickness;
+        set => this.RaiseAndSetIfChanged(ref _thickness, value);
+    }
+
+    private string _panelWidth = "";
+    public string panelWidth
+    {
+        get => _panelWidth;
+        set => this.RaiseAndSetIfChanged(ref _panelWidth, value);
+    }
+
+    private string _panelHeight = "";
+    public string panelHeight
+    {
+        get => _panelHeight;
+        set => this.RaiseAndSetIfChanged(ref _panelHeight, value);
+    }
+
+    private string _price = "";
+    public string price
+    {
+        get => _price;
+        set => this.RaiseAndSetIfChanged(ref _price, value);
+    }
+
+    private string _date = "";
+    public string date
+    {
+        get => _date;
+        set => this.RaiseAndSetIfChanged(ref _date, value);
+    }
+
+    private string _lastUpdatedBy = "";
+    public string lastUpdatedBy
+    {
+        get => _lastUpdatedBy;
+        set => this.RaiseAndSetIfChanged(ref _lastUpdatedBy, value);
+    }
+
+    private string _connStatus = "";
+    public string connStatus
+    {
+        get => _connStatus;
+        set => this.RaiseAndSetIfChanged(ref _connStatus, value);
+    }
+
+
     
     public PanelCostViewModel() 
     {
-        Test = "Burrito";
+        test = "Burrito";
         model = DBModel.GetInstance();
-        if(model.TestDBConn())
+        woodPanels = new WoodPanel[1000];
+        for (int i = 0; i < woodPanels.Length; i++) { woodPanels[i] = new WoodPanel(); }
+        if (model.TestDBConn())
         {
-            ConnectionStatus = "Up";
+            connStatus = "Up";
+            //woodPanels = model.SetupPanelCostCalcWoodPanels();
+
+            //test = woodPanels[0].type + " " + woodPanels[0].thickness.ToString() + " " + woodPanels[0].panelWidth.ToString() + " " + woodPanels[0].panelHeight.ToString() + " " + woodPanels[0].price.ToString() + " " + woodPanels[0].date.ToString() + " " + woodPanels[0].lastUpdatedBy;
         } else
         {
-            ConnectionStatus = "False";
+            connStatus = "False";
         }
     }
    public void UpdatePanelCost()
     {
         Console.WriteLine("UpdatePanelCost Called");
-        PanelQuery();
-        PanelCost4by8Total = CalculatePanelCost4by8Total();
-        PanelCost4by8sqft = CalculatePanelCost4by8sqft();
-        PanelCost5x12Total = CalculatePanelCost5by12Total();
-        PanelCost5x12sqft = CalculatePanelCost5by12sqft();
-    }
-
-    private void PanelQuery()
-    {
-
-    }
-
-    private int CalculatePanelCost4by8Total()
-    {
-        return Wood4by8Cost + Side14by8Cost + Side24by8Cost + LayupCharge4by8 + SpecialFinish4by8Cost;
-    }
-
-    private int CalculatePanelCost4by8sqft()
-    {
-        return PanelCost4by8Total / 42;
-    }
-
-    private int CalculatePanelCost5by12Total()
-    {
-        return 0;
-    }
-
-    private int CalculatePanelCost5by12sqft()
-    {
-        return PanelCost5x12Total / 60;
+        //I'm modifying the values of existing objects rather than instantiating new ones to fill in the array.
+        //This prevents it from becoming null after returning from the querying function. 
+        //I'm clearly not understanding something about how the C# garbage collector handles objects in methods. 
+        model.LoadPanelCostCalcWoodMaterials(woodPanels);
+        test = woodPanels[0].type + " " + woodPanels[0].thickness.ToString() + " " + woodPanels[0].panelWidth.ToString() + " " + woodPanels[0].panelHeight.ToString() + " " + woodPanels[0].price.ToString() + " " + woodPanels[0].date + " " + woodPanels[0].lastUpdatedBy;
+        woodMaterialType = woodPanels[0].type;
+        thickness = woodPanels[0].thickness.ToString();
+        panelWidth = woodPanels[0].panelWidth.ToString();
+        panelHeight = woodPanels[0].panelHeight.ToString();
+        price = woodPanels[0].price.ToString();
+        date = woodPanels[0].date;
+        lastUpdatedBy = woodPanels[0].lastUpdatedBy;
     }
 }

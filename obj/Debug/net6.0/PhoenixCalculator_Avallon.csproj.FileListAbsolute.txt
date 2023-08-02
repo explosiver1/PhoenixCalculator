@@ -140,18 +140,6 @@ C:\Users\jholston\Developer\Phoenix Calculator App\PhoenixCalculator\obj\Debug\n
 C:\Users\jholston\Developer\Phoenix Calculator App\PhoenixCalculator\obj\Debug\net6.0\PhoenixCalculator_Avallon.csproj.CopyComplete
 C:\Users\jholston\Developer\Phoenix Calculator App\PhoenixCalculator\obj\Debug\net6.0\PhoenixCalculator_Avallon.genruntimeconfig.cache
 C:\Users\jholston\Developer\Phoenix Calculator App\PhoenixCalculator\obj\Debug\net6.0\ref\PhoenixCalculator_Avallon.dll
-C:\Users\jholston\Developer\PhoenixCalculator\obj\Debug\net6.0\PhoenixCalculator_Avallon.csproj.AssemblyReference.cache
-C:\Users\jholston\Developer\PhoenixCalculator\obj\Debug\net6.0\Avalonia\Resources.Inputs.cache
-C:\Users\jholston\Developer\PhoenixCalculator\obj\Debug\net6.0\Avalonia\resources
-C:\Users\jholston\Developer\PhoenixCalculator\obj\Debug\net6.0\PhoenixCalculator_Avallon.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\jholston\Developer\PhoenixCalculator\obj\Debug\net6.0\PhoenixCalculator_Avallon.AssemblyInfoInputs.cache
-C:\Users\jholston\Developer\PhoenixCalculator\obj\Debug\net6.0\PhoenixCalculator_Avallon.AssemblyInfo.cs
-C:\Users\jholston\Developer\PhoenixCalculator\obj\Debug\net6.0\PhoenixCalculator_Avallon.csproj.CoreCompileInputs.cache
-C:\Users\jholston\Developer\PhoenixCalculator\obj\Debug\net6.0\Avalonia\references
-C:\Users\jholston\Developer\PhoenixCalculator\obj\Debug\net6.0\Avalonia\original.dll
-C:\Users\jholston\Developer\PhoenixCalculator\obj\Debug\net6.0\Avalonia\original.pdb
-C:\Users\jholston\Developer\PhoenixCalculator\obj\Debug\net6.0\Avalonia\original.ref.dll
-C:\Users\jholston\Developer\PhoenixCalculator\obj\Debug\net6.0\refint\PhoenixCalculator_Avallon.dll
 C:\Users\jholston\Developer\PhoenixCalculator\bin\Debug\net6.0\PhoenixCalculator_Avallon.exe
 C:\Users\jholston\Developer\PhoenixCalculator\bin\Debug\net6.0\PhoenixCalculator_Avallon.deps.json
 C:\Users\jholston\Developer\PhoenixCalculator\bin\Debug\net6.0\PhoenixCalculator_Avallon.runtimeconfig.json
@@ -277,6 +265,18 @@ C:\Users\jholston\Developer\PhoenixCalculator\bin\Debug\net6.0\runtimes\unix\lib
 C:\Users\jholston\Developer\PhoenixCalculator\bin\Debug\net6.0\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
 C:\Users\jholston\Developer\PhoenixCalculator\bin\Debug\net6.0\runtimes\unix\lib\net6.0\System.Drawing.Common.dll
 C:\Users\jholston\Developer\PhoenixCalculator\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Drawing.Common.dll
+C:\Users\jholston\Developer\PhoenixCalculator\obj\Debug\net6.0\PhoenixCalculator_Avallon.csproj.AssemblyReference.cache
+C:\Users\jholston\Developer\PhoenixCalculator\obj\Debug\net6.0\Avalonia\Resources.Inputs.cache
+C:\Users\jholston\Developer\PhoenixCalculator\obj\Debug\net6.0\Avalonia\resources
+C:\Users\jholston\Developer\PhoenixCalculator\obj\Debug\net6.0\PhoenixCalculator_Avallon.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\jholston\Developer\PhoenixCalculator\obj\Debug\net6.0\PhoenixCalculator_Avallon.AssemblyInfoInputs.cache
+C:\Users\jholston\Developer\PhoenixCalculator\obj\Debug\net6.0\PhoenixCalculator_Avallon.AssemblyInfo.cs
+C:\Users\jholston\Developer\PhoenixCalculator\obj\Debug\net6.0\PhoenixCalculator_Avallon.csproj.CoreCompileInputs.cache
+C:\Users\jholston\Developer\PhoenixCalculator\obj\Debug\net6.0\Avalonia\references
+C:\Users\jholston\Developer\PhoenixCalculator\obj\Debug\net6.0\Avalonia\original.dll
+C:\Users\jholston\Developer\PhoenixCalculator\obj\Debug\net6.0\Avalonia\original.pdb
+C:\Users\jholston\Developer\PhoenixCalculator\obj\Debug\net6.0\Avalonia\original.ref.dll
+C:\Users\jholston\Developer\PhoenixCalculator\obj\Debug\net6.0\refint\PhoenixCalculator_Avallon.dll
 C:\Users\jholston\Developer\PhoenixCalculator\obj\Debug\net6.0\PhoenixCalculator_Avallon.dll
 C:\Users\jholston\Developer\PhoenixCalculator\obj\Debug\net6.0\PhoenixCalculator_Avallon.pdb
 C:\Users\jholston\Developer\PhoenixCalculator\obj\Debug\net6.0\PhoenixCalculator_Avallon.csproj.CopyComplete
