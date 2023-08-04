@@ -13,7 +13,63 @@ public class PanelCostViewModel : ReactiveObject
     public DBModel model;
     // public WoodPanel[] woodPanels = new WoodPanel[1000];
 
+    //Spaghetti of backing and public fields. The public fields have a special setter that calls a notification function from ReactiveUI that enables Bindings to work correctly
+    private string[] _addItemTypes = { "Wood Panel", "Laminate", "Special Finish" };
+
+    public string[] addItemTypes
+    {
+        get => _addItemTypes;
+    }
+
+    private string _selectedAddItemType = "";
+    public string selectedAddItemType
+    {
+        get => _selectedAddItemType;
+        set => this.RaiseAndSetIfChanged(ref _selectedAddItemType, value);
+    }
+    private string _addItemType = "";
+    public string addItemType
+    {
+        get => _addItemType;
+        set => this.RaiseAndSetIfChanged(ref _addItemType, value);
+    }
+    private string _addItemThickness = "";
+    public string addItemThickness
+    {
+        get => _addItemThickness;
+        set => this.RaiseAndSetIfChanged(ref _addItemThickness, value);
+    }
+    private string _addItemWidth = "";
+    public string addItemWidth
+    {
+        get => _addItemWidth;
+        set => this.RaiseAndSetIfChanged(ref _addItemWidth, value);
+    }
+    private string _addItemHeight = "";
+    public string addItemHeight
+    {
+        get => _addItemHeight;
+        set => this.RaiseAndSetIfChanged(ref _addItemHeight, value);
+    }
+    private string _addItemPrice = "";
+    public string addItemPrice
+    {
+        get => _addItemPrice;
+        set => this.RaiseAndSetIfChanged(ref _addItemPrice, value);
+    }
+    private string _addItemLastUpdatedBy = "";
+    public string addItemLastUpdatedBy
+    {
+        get => _addItemLastUpdatedBy;
+        set => this.RaiseAndSetIfChanged(ref _addItemLastUpdatedBy, value);
+    }
     private string[] _woodMaterialTypes = new string[1];
+    private string _addItemStatus = "";
+    public string addItemStatus
+    {
+        get => _addItemStatus;
+        set => this.RaiseAndSetIfChanged(ref _addItemStatus, value);
+    }
     public string[] woodMaterialTypes
     {
         get => _woodMaterialTypes;
@@ -24,7 +80,11 @@ public class PanelCostViewModel : ReactiveObject
     public string selectedWoodMaterialType
     {
         get => _selectedWoodMaterialType;
-        set => this.RaiseAndSetIfChanged(ref _selectedWoodMaterialType, value);
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _selectedWoodMaterialType, value);
+            thicknesses = model.GetWoodPanelThicknesses(value);
+        }
     }
     private string[] _laminateSidingTypes1 = new string[1];
     public string[] laminateSidingTypes1
@@ -63,12 +123,23 @@ public class PanelCostViewModel : ReactiveObject
         get => _selectedSpecialFinishType;
         set => this.RaiseAndSetIfChanged(ref _selectedSpecialFinishType, value);
     }
-
-    private string _thickness = "";
-    public string thickness
+    private string[] _thicknesses = new string[1];
+    public string[] thicknesses
     {
-        get => _thickness;
-        set => this.RaiseAndSetIfChanged(ref _thickness, value);
+        get => _thicknesses;
+        set { 
+            this.RaiseAndSetIfChanged(ref _thicknesses, value);
+            selectedThickness = "";   
+        }
+    }
+    private string _selectedThickness = "";
+    public string selectedThickness
+    {
+        get => _selectedThickness;
+        set { 
+            this.RaiseAndSetIfChanged(ref _selectedThickness, value);
+            panelDimensions = model.GetWoodPanelDimensions(selectedWoodMaterialType, value);
+        }
     }
 
     private string _panelWidth = "";
@@ -83,6 +154,35 @@ public class PanelCostViewModel : ReactiveObject
     {
         get => _panelHeight;
         set => this.RaiseAndSetIfChanged(ref _panelHeight, value);
+    }
+    private string[] _panelDimensions = new string[1];
+    public string[] panelDimensions
+    {
+        get => _panelDimensions;
+        set { 
+            this.RaiseAndSetIfChanged(ref _panelDimensions, value);
+            selectedPanelDimensions = "";
+        }
+    }
+
+    private string _selectedPanelDimensions = "";
+    public string selectedPanelDimensions
+    {
+        get => _selectedPanelDimensions;
+        set { 
+            this.RaiseAndSetIfChanged(ref _selectedPanelDimensions, value); 
+            
+            if (value == "4x8"){
+                panelWidth = "4";
+                panelHeight = "8";
+            } else if (value == "5x12") {
+                panelWidth = "5";
+                panelHeight = "12";
+            } else {
+                panelWidth = "";
+                panelHeight = "";
+            }
+        }
     }
 
     private string _connStatus = "";
@@ -125,31 +225,75 @@ public class PanelCostViewModel : ReactiveObject
             laminateSidingTypes1 = model.GetLaminateSidingTypes();
             laminateSidingTypes2 = model.GetLaminateSidingTypes();
             specialFinishTypes = model.GetSpecialFinishTypes();
+            selectedLaminateSidingType1 = "None";
+            selectedLaminateSidingType2 = "None";
+            selectedSpecialFinishType = "None";
+            specialFinishSideNum = "0";
 
         } else
         {
             connStatus = "False";
         }
     }
-   public void UpdatePanelCost()
-    {
+   public void UpdatePanelCost() {
         Console.WriteLine("UpdatePanelCost Called");
-        WoodPanel wp = model.GetWoodPanel(selectedWoodMaterialType, thickness, panelHeight, panelWidth);
+        WoodPanel wp = model.GetWoodPanel(selectedWoodMaterialType, selectedThickness, panelHeight, panelWidth);
         LaminateSiding lp1 = model.GetLaminateSiding(selectedLaminateSidingType1, panelHeight, panelWidth);
         LaminateSiding lp2 = model.GetLaminateSiding(selectedLaminateSidingType2, panelHeight, panelWidth);
         SpecialtyFinish sf = model.GetSpecialtyFinish(selectedSpecialFinishType);
-        float sNum;
-        try
-        {
-            sNum = System.Convert.ToSingle(specialFinishSideNum);
-        } catch (Exception e)
-        {
-            Console.WriteLine(e.ToString());
-            sNum = 0;
+        SpecialtyFinish layupCharge;
+        if (selectedLaminateSidingType1=="None" && selectedLaminateSidingType2=="None"){
+            layupCharge = new SpecialtyFinish();
+            layupCharge.sqftPrice = 0f;
         }
-        float layupCharge = 0f;
-        float cpc = wp.price + lp1.price + lp2.price + layupCharge + sf.sqftPrice * sNum;
-
+        else if (isPlywood){
+            layupCharge = model.GetSpecialtyFinish("Layup Charge Plywood");
+        } else {
+            layupCharge = model.GetSpecialtyFinish("Layup Charge Not Plywood");
+        }
+        float sNum;
+        try{
+            sNum = System.Convert.ToSingle(specialFinishSideNum);
+        } catch (Exception e){
+            Console.WriteLine(e.ToString());
+            sNum = 0f;
+        }
+        float cpc = wp.price + lp1.price + lp2.price + layupCharge.sqftPrice + sf.sqftPrice * sNum * wp.panelWidth * wp.panelHeight;
         calculatedPanelCost = cpc.ToString();
+    }
+
+    public void AddPanelCostItem() {
+
+        if (selectedAddItemType == "Wood Panel"){
+            if (addItemType == "" || (addItemHeight != "8" && addItemHeight != "12") || (addItemWidth != "4" && addItemWidth != "5") || addItemPrice == "" || addItemLastUpdatedBy == "") addItemStatus = "Invalid Input. Please check your values.";
+            else{
+                if (model.AddPanelCostWoodMaterial(addItemType, addItemThickness, addItemWidth, addItemHeight, addItemPrice, "1-1-1900", addItemLastUpdatedBy)) { 
+                    addItemStatus = "Entry added to calculator database";
+                    woodMaterialTypes = model.GetWoodPanelMaterialTypes();    
+                }
+                else addItemStatus = "Item could not be added. Please check SQL connection and input values.";
+            }
+        } else if (selectedAddItemType == "Laminate"){
+            if (addItemType == "" || (addItemHeight != "8" && addItemHeight != "12") || (addItemWidth != "4" && addItemWidth != "5") || addItemPrice == "" || addItemLastUpdatedBy == "") addItemStatus = "Invalid Input. Please check your values.";
+            else{
+                if (model.AddPanelCostLaminateMaterial(addItemType, addItemWidth, addItemHeight, addItemPrice, "1-1-1900", addItemLastUpdatedBy)) { 
+                    addItemStatus = "Entry added to calculator database"; 
+                    laminateSidingTypes1 = model.GetLaminateSidingTypes();
+                    laminateSidingTypes2 = model.GetLaminateSidingTypes();
+                }
+                else addItemStatus = "Item could not be added. Please check SQL connection and input values.";
+            }
+        } else if (selectedAddItemType == "Special Finish") {
+            if (addItemType == "" || (addItemHeight != "8" && addItemHeight != "12") || (addItemWidth != "4" && addItemWidth != "5") || addItemPrice == "" || addItemLastUpdatedBy == "") addItemStatus = "Invalid Input. Please check your values.";
+            else{
+                if (model.AddPanelCostSpecialFinish(addItemType, addItemPrice, "1-1-1900", addItemLastUpdatedBy)) { 
+                    addItemStatus = "Entry added to calculator database"; 
+                    specialFinishTypes = model.GetSpecialFinishTypes();
+                }
+                else addItemStatus = "Item could not be added. Please check SQL connection and input values.";
+            }
+        } else {
+            addItemStatus = "Invalid Type";
+        }
     }
 }

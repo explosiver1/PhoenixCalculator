@@ -7,6 +7,7 @@
              x:Class="PhoenixCalculator_Avallon.Views.PanelCostView"
              x:DataType="vm:PanelCostViewModel">
                 <StackPanel  Spacing="10">
+                    <TextBlock Text="Calculate Panel Cost Section:" FontSize="20"/>
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="20"/>
@@ -31,11 +32,10 @@
                         <TextBlock Grid.Row="1" Grid.Column="1" Text="Wood Material Type:" />
                         <ComboBox Grid.Row="1" Grid.Column="2" ItemsSource="{Binding woodMaterialTypes}" SelectedValue="{Binding selectedWoodMaterialType}"/>
                         <TextBlock Grid.Row="2" Grid.Column="1" Text="Thickness:" />
-                        <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding thickness}" />
-                        <TextBlock Grid.Row="3" Grid.Column="1" Text="Width:" />
-                        <TextBox Grid.Row="3" Grid.Column="2" Text="{Binding panelWidth}" />
-                        <TextBlock Grid.Row="4" Grid.Column="1" Text="Height:" />
-                        <TextBox Grid.Row="4" Grid.Column="2" Text="{Binding panelHeight}" />
+                        <ComboBox Grid.Row="2" Grid.Column="2" ItemsSource="{Binding thicknesses}" SelectedValue="{Binding selectedThickness}"/>
+                        <TextBlock Grid.Row="3" Grid.Column="1" Text="Dimensions:" />
+                        <ComboBox Grid.Row="3" Grid.Column="2" ItemsSource="{Binding panelDimensions}" SelectedValue="{Binding selectedPanelDimensions}"/>
+
                         <TextBlock Grid.Column="3" Grid.Row="1" Text="Plywood" />
                         <CheckBox Grid.Column="4" Grid.Row="1" IsChecked="{Binding isPlywood}"/>
                         <TextBlock Grid.Column="3" Grid.Row="2" Text="Side 1 Laminate" />
@@ -46,15 +46,46 @@
                         <ComboBox Grid.Column="4" Grid.Row="4" ItemsSource="{Binding specialFinishTypes}" SelectedValue="{Binding selectedSpecialFinishType}"/>
                         <TextBlock Grid.Column="3" Grid.Row="5" Text="Number of Side with Special Finish:" />
                         <TextBox Grid.Column="4" Grid.Row="5" Text="{Binding specialFinishSideNum}"/>
-
-
-                        <Button Command="{Binding UpdatePanelCost}" Content="Update" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="6" />
-
                     </Grid>
-                    
+                    <Button Command="{Binding UpdatePanelCost}" Content="Calculate"/>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Total Panel Cost:" FontSize="24"/>
-                        <TextBlock Text="{Binding calculatedPanelCost}" FontSize="24" />
+                        <TextBlock Text="Total Panel Cost:" FontSize="18"/>
+                        <TextBlock Text="{Binding calculatedPanelCost}" FontSize="18" />
+                    </StackPanel>
+
+                    <StackPanel Spacing="5">
+                        <TextBlock Text="Add Item to Database Section:" FontSize="20"/>
+                        <StackPanel Orientation="Horizontal" Spacing="5">
+                            <TextBlock Text="Type:" />
+                            <ComboBox ItemsSource="{Binding addItemTypes}" SelectedValue="{Binding selectedAddItemType}"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Spacing="5">
+                            <TextBlock Text="Name:" />
+                            <TextBox Text="{Binding addItemType}" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Spacing="5">
+                            <TextBlock Text="Thickness:" />
+                            <TextBox Text="{Binding addItemThickness}" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Spacing="5">
+                            <TextBlock Text="Width:" />
+                            <TextBox Text="{Binding addItemWidth}" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Spacing="5">
+                            <TextBlock Text="Height:" />
+                            <TextBox Text="{Binding addItemHeight}" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Spacing="5">
+                            <TextBlock Text="Price:" />
+                            <TextBox Text="{Binding addItemPrice}" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Spacing="5">
+                            <TextBlock Text="User Initials:" />
+                            <TextBox Text="{Binding addItemLastUpdatedBy}" />
+                        </StackPanel>
+                        
+                        <Button Command="{Binding AddPanelCostItem}" Content="Add Panel Cost DB Item"/>
+                        <TextBlock Text="{Binding addItemStatus}" />
                     </StackPanel>
                 </StackPanel>
 </UserControl>
