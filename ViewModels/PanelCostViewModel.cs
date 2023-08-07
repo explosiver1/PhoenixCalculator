@@ -15,7 +15,6 @@ public class PanelCostViewModel : ReactiveObject
 
     //Spaghetti of backing and public fields. The public fields have a special setter that calls a notification function from ReactiveUI that enables Bindings to work correctly
     private string[] _addItemTypes = { "Wood Panel", "Laminate", "Special Finish" };
-
     public string[] addItemTypes
     {
         get => _addItemTypes;
@@ -83,7 +82,7 @@ public class PanelCostViewModel : ReactiveObject
         set
         {
             this.RaiseAndSetIfChanged(ref _selectedWoodMaterialType, value);
-            thicknesses = model.GetWoodPanelThicknesses(value);
+            UpdatePanelThicknesses();
         }
     }
     private string[] _laminateSidingTypes1 = new string[1];
@@ -128,8 +127,7 @@ public class PanelCostViewModel : ReactiveObject
     {
         get => _thicknesses;
         set { 
-            this.RaiseAndSetIfChanged(ref _thicknesses, value);
-            selectedThickness = "";   
+            this.RaiseAndSetIfChanged(ref _thicknesses, value);   
         }
     }
     private string _selectedThickness = "";
@@ -138,7 +136,7 @@ public class PanelCostViewModel : ReactiveObject
         get => _selectedThickness;
         set { 
             this.RaiseAndSetIfChanged(ref _selectedThickness, value);
-            panelDimensions = model.GetWoodPanelDimensions(selectedWoodMaterialType, value);
+            UpdatePanelDimensions();
         }
     }
 
@@ -161,7 +159,6 @@ public class PanelCostViewModel : ReactiveObject
         get => _panelDimensions;
         set { 
             this.RaiseAndSetIfChanged(ref _panelDimensions, value);
-            selectedPanelDimensions = "";
         }
     }
 
@@ -170,18 +167,8 @@ public class PanelCostViewModel : ReactiveObject
     {
         get => _selectedPanelDimensions;
         set { 
-            this.RaiseAndSetIfChanged(ref _selectedPanelDimensions, value); 
-            
-            if (value == "4x8"){
-                panelWidth = "4";
-                panelHeight = "8";
-            } else if (value == "5x12") {
-                panelWidth = "5";
-                panelHeight = "12";
-            } else {
-                panelWidth = "";
-                panelHeight = "";
-            }
+            this.RaiseAndSetIfChanged(ref _selectedPanelDimensions, value);
+            SplitPanelDimensions();
         }
     }
 
@@ -234,6 +221,29 @@ public class PanelCostViewModel : ReactiveObject
         {
             connStatus = "False";
         }
+    }
+
+    public void SplitPanelDimensions()
+    {
+        if (selectedPanelDimensions != null && selectedPanelDimensions != "")
+        {
+            string[] pd = selectedPanelDimensions.Split('x');
+            if (pd[0] != null && pd[1] != null)
+            {
+                panelWidth = pd[0];
+                panelHeight = pd[1];
+            }
+        }
+
+    }
+    public void UpdatePanelDimensions()
+    {
+        panelDimensions = model.GetWoodPanelDimensions(selectedWoodMaterialType, selectedThickness);
+    }
+
+    public void UpdatePanelThicknesses()
+    {
+        thicknesses = model.GetWoodPanelThicknesses(selectedWoodMaterialType);
     }
    public void UpdatePanelCost() {
         Console.WriteLine("UpdatePanelCost Called");

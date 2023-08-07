@@ -320,10 +320,10 @@ namespace PhoenixCalculator_Avallon.Models
             {
                 using (SqlConnection cnn = new SqlConnection(sqlConnString))
                 {
-                    using (SqlCommand selectDB = new SqlCommand("SELECT DISTINCT Type FROM PanelCostWoodMaterial ORDER BY Type;", cnn))
+                    using (SqlCommand cmd    = new SqlCommand("SELECT DISTINCT Type FROM PanelCostWoodMaterial ORDER BY Type;", cnn))
                     {
                         cnn.Open();
-                        using (SqlDataReader reader = selectDB.ExecuteReader())
+                        using (SqlDataReader reader = cmd.ExecuteReader())
                         {
                             int i = 0;
                             while (reader.Read())
@@ -443,25 +443,25 @@ namespace PhoenixCalculator_Avallon.Models
         //That's the order the user will go down when making selections, so it should be fine. 
         public string[] GetWoodPanelThicknesses(string type)
         {
-            string[] thicknesses = new string[10];
+            string[] thicknesses = new string[100];
             try
             {
                 
                 using (SqlConnection cnn = new SqlConnection(sqlConnString))
                 {
-                    string sqlCommString = $"SELECT * FROM PanelCostWoodMaterial WHERE Type='{type}';";
+                    string sqlCommString = $"SELECT DISTINCT Thickness FROM PanelCostWoodMaterial WHERE Type='{type}';";
                     //if (width != "" && height != "") sqlCommString = $"SELECT * FROM PanelCostWoodMaterial WHERE Type='{type}'AND panelWidth='{width}' AND panelHeight='{height}';";
                     // else sqlCommString = $"SELECT * FROM PanelCostWoodMaterial WHERE Type='{type}';";
-                    using (SqlCommand selectDB = new SqlCommand(sqlCommString, cnn))
+                    using (SqlCommand cmd = new SqlCommand(sqlCommString, cnn))
                     {
                         cnn.Open();
-                        using (SqlDataReader reader = selectDB.ExecuteReader())
+                        using (SqlDataReader reader = cmd.ExecuteReader())
                         {
                             thicknesses[0] = "";
                             int i = 1;
                             while (reader.Read())
                             {
-                                thicknesses[i] = reader.GetDouble(1).ToString();
+                                thicknesses[i] = reader.GetDouble(0).ToString();
                                 i++;
                             }
                         }
@@ -477,16 +477,15 @@ namespace PhoenixCalculator_Avallon.Models
         }
         public string[] GetWoodPanelDimensions(string type, string thickness)
         {
-            string[] width = new string[10];
-            string[] height = new string[10];
             string[] dimensions = new string[10];
             try
             {
                 using (SqlConnection cnn = new SqlConnection(sqlConnString))
                 {
                     string sqlCommString;
-                    if (thickness != "") sqlCommString = $"SELECT * FROM PanelCostWoodMaterial WHERE Type='{type}'AND Thickness='{thickness}';";
-                    else sqlCommString = $"SELECT * FROM PanelCostWoodMaterial WHERE Type='{type}';";
+                    if (thickness != "") sqlCommString = $"SELECT CONCAT(PanelWidth, 'x', PanelHeight) FROM PanelCostWoodMaterial WHERE Type='{type}'AND Thickness='{thickness}';";
+                    else return new string[1];
+                        //sqlCommString = $"SELECT PanelWidth, PanelHeight FROM PanelCostWoodMaterial WHERE Type='{type}';";
                     using (SqlCommand selectDB = new SqlCommand(sqlCommString, cnn))
                     {
                         cnn.Open();
@@ -496,9 +495,7 @@ namespace PhoenixCalculator_Avallon.Models
                             int i = 1;
                             while (reader.Read())
                             {
-                                width[i] = reader.GetString(2);
-                                height[i] = reader.GetString(3);
-                                dimensions[i] = width[i] + "x" + height[i];
+                                dimensions[i] = reader.GetString(0);
                                 i++;
                             }
                         }
@@ -509,6 +506,10 @@ namespace PhoenixCalculator_Avallon.Models
             catch (Exception e)
             {
                 Console.WriteLine(e);
+                for (int i = 0; i < dimensions.Length; i++)
+                {
+                    dimensions[i] = "";
+                }
                 return new string[1];
             }
         }
