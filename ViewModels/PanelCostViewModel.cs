@@ -208,21 +208,24 @@ public class PanelCostViewModel : ReactiveObject
         {
             connStatus = "Up";
             //woodPanels = model.LoadPanelCostCalcWoodMaterials(woodPanels);
-            woodMaterialTypes = model.GetWoodPanelMaterialTypes();
-            laminateSidingTypes1 = model.GetLaminateSidingTypes();
-            laminateSidingTypes2 = model.GetLaminateSidingTypes();
-            specialFinishTypes = model.GetSpecialFinishTypes();
-            selectedLaminateSidingType1 = "None";
-            selectedLaminateSidingType2 = "None";
-            selectedSpecialFinishType = "None";
-            specialFinishSideNum = "0";
-
+            Refresh();
+   
         } else
         {
             connStatus = "False";
         }
     }
 
+    public void Refresh()
+    {
+        woodMaterialTypes = model.GetWoodPanelMaterialTypes();
+        laminateSidingTypes1 = model.GetLaminateSidingTypes();
+        laminateSidingTypes2 = model.GetLaminateSidingTypes();
+        specialFinishTypes = model.GetSpecialFinishTypes();
+        selectedLaminateSidingType1 = "None";
+        selectedLaminateSidingType2 = "None";
+        selectedSpecialFinishType = "None";
+    }
     public void SplitPanelDimensions()
     {
         if (selectedPanelDimensions != null && selectedPanelDimensions != "")
@@ -251,15 +254,15 @@ public class PanelCostViewModel : ReactiveObject
         LaminateSiding lp1 = model.GetLaminateSiding(selectedLaminateSidingType1, panelHeight, panelWidth);
         LaminateSiding lp2 = model.GetLaminateSiding(selectedLaminateSidingType2, panelHeight, panelWidth);
         SpecialtyFinish sf = model.GetSpecialtyFinish(selectedSpecialFinishType);
-        SpecialtyFinish layupCharge;
+        LaminateSiding layupCharge;
         if (selectedLaminateSidingType1=="None" && selectedLaminateSidingType2=="None"){
-            layupCharge = new SpecialtyFinish();
-            layupCharge.sqftPrice = 0f;
+            layupCharge = new LaminateSiding();
+            layupCharge.price = 0f;
         }
         else if (isPlywood){
-            layupCharge = model.GetSpecialtyFinish("Layup Charge Plywood");
+            layupCharge = model.GetLaminateSiding("Layup Charge Plywood", panelHeight, panelWidth);
         } else {
-            layupCharge = model.GetSpecialtyFinish("Layup Charge Not Plywood");
+            layupCharge = model.GetLaminateSiding("Layup Charge Not Plywood", panelHeight, panelWidth);
         }
         float sNum;
         try{
@@ -268,8 +271,29 @@ public class PanelCostViewModel : ReactiveObject
             Console.WriteLine(e.ToString());
             sNum = 0f;
         }
-        float cpc = wp.price + lp1.price + lp2.price + layupCharge.sqftPrice + sf.sqftPrice * sNum * wp.panelWidth * wp.panelHeight;
-        calculatedPanelCost = cpc.ToString();
+        if (wp.price > 900) { 
+            calculatedPanelCost = "Error, this panel material does not exist in this size.";
+        } else if (lp1.price > 900)
+        {
+            calculatedPanelCost = "Error, Side 1 Laminate does not exist for this panel size.";
+        } else if (lp2.price > 900)
+        {
+            calculatedPanelCost = "Error, Side 2 Laminate does not exist for this panel size.";
+        } else if (sf.price > 900)
+        {
+            calculatedPanelCost = "Error, Special Finish does not exist for this panel size.";
+        } else if (layupCharge.price > 900)
+        {
+            calculatedPanelCost = "Error, Layup Charge out of range.";
+        } else if (sNum > 2)
+        {
+            calculatedPanelCost = "Error, Number of Sides is greater than 2. Check your inputs.";
+        }
+        else
+        {
+            float cpc = wp.price + lp1.price + lp2.price + layupCharge.price + sf.price * sNum;
+            calculatedPanelCost = String.Format("{0:N2}",cpc);
+        }
     }
 
     public void AddPanelCostItem() {

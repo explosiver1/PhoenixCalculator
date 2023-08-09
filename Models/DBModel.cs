@@ -563,7 +563,7 @@ namespace PhoenixCalculator_Avallon.Models
                             while (reader.Read())
                             {
                                 sFin.type = reader.GetString(0);
-                                sFin.sqftPrice = (float)reader.GetDouble(1);
+                                sFin.price = (float)reader.GetDouble(1);
                                 sFin.date = reader.GetString(2);
                                 sFin.lastUpdatedBy = reader.GetString(3);
                             }
@@ -620,7 +620,7 @@ namespace PhoenixCalculator_Avallon.Models
     public class SpecialtyFinish
     {
         public string type = "Error";
-        public float sqftPrice = 9999f;
+        public float price = 9999f;
         public string date = "1/1/1900";
         public string lastUpdatedBy = "System";
     }
