@@ -4,6 +4,7 @@ using System;
 using System.Reactive;
 using System.Linq;
 using ReactiveUI;
+using SkiaSharp;
 
 namespace PhoenixCalculator_Avallon.ViewModels;
 
@@ -26,6 +27,7 @@ public class PanelCostViewModel : ReactiveObject
         get => _selectedAddItemType;
         set => this.RaiseAndSetIfChanged(ref _selectedAddItemType, value);
     }
+
     private string _addItemType = "";
     public string addItemType
     {
@@ -68,6 +70,13 @@ public class PanelCostViewModel : ReactiveObject
     {
         get => _addItemStatus;
         set => this.RaiseAndSetIfChanged(ref _addItemStatus, value);
+    }
+
+    private string _removeItemStatus = "";
+    public string removeItemStatus
+    {
+        get => _removeItemStatus;
+        set => this.RaiseAndSetIfChanged(ref _removeItemStatus, value);
     }
     public string[] woodMaterialTypes
     {
@@ -405,6 +414,48 @@ public class PanelCostViewModel : ReactiveObject
             }
         } else {
             addItemStatus = "Invalid Type";
+        }
+    }
+    //Buttons with slightly different criteria. 
+    public void RemoveWoodMaterial()
+    {
+        RemovePanelCostItem("Wood Panel", selectedWoodMaterialType, panelWidth, panelHeight, selectedThickness);
+    }
+
+    public void RemoveLam1()
+    {
+        RemovePanelCostItem("Laminate", selectedLaminateSidingType1, panelWidth, panelHeight, selectedThickness);
+    }
+
+    public void RemoveLam2()
+    {
+        RemovePanelCostItem("Laminate", selectedLaminateSidingType2, panelWidth, panelHeight, selectedThickness);
+    }
+    public void RemovePanelCostItem(string selection, string type, string width, string height, string thickness)
+    {
+        if (selection == "Wood Panel")
+        {
+                if (model.RemovePanelCostWoodMaterial(type, thickness, width, height))
+                {
+                removeItemStatus = "Entry removed from calculator database";
+                    woodMaterialTypes = model.GetWoodPanelMaterialTypes();
+                }
+                else removeItemStatus = "Item could not be Removed. Please check SQL connection and input values.";
+
+        }
+        else if (selection == "Laminate")
+        {
+            if (model.RemovePanelCostLaminateMaterial(type))
+            {
+                addItemStatus = "Entry removed from calculator database";
+                laminateSidingTypes1 = model.GetLaminateSidingTypes();
+                laminateSidingTypes2 = model.GetLaminateSidingTypes();
+            }
+            else removeItemStatus = "Item could not be removed. Please check SQL connectin and input values.";
+        }
+        else
+        {
+            removeItemStatus = "Invalid Type";
         }
     }
 }

@@ -231,6 +231,26 @@ namespace PhoenixCalculator_Avallon.Models
                 }
             }
         }
+        public bool RemovePanelCostWoodMaterial(string type, string thickness, string panelWidth, string panelHeight)
+        {
+                try
+                {
+                    using (SqlConnection cnn = new SqlConnection(sqlConnString))
+                    {
+                        using (SqlCommand removeRow = new SqlCommand($"DELETE FROM PanelCostWoodMaterial WHERE Type='{type}' AND Thickness='{thickness}' AND PanelWidth='{panelWidth}' AND PanelHeight='{panelHeight}';", cnn))
+                        {
+                            cnn.Open();
+                            removeRow.ExecuteNonQuery();
+                            return true;
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    return false;
+                }
+        }
         public bool AddPanelCostLaminateMaterial(string type, string panelWidth, string panelHeight, string price, string date, string lastUpdatedBy)
         {
             //Attempts to load a laminate panel matching that name. If it exists, it performs a SQL update statement instead of an insert.
@@ -274,6 +294,26 @@ namespace PhoenixCalculator_Avallon.Models
                     Console.WriteLine(e);
                     return false;
                 }
+            }
+        }
+        public bool RemovePanelCostLaminateMaterial(string type)
+        {
+            try
+            {
+                using (SqlConnection cnn = new SqlConnection(sqlConnString))
+                {
+                    using (SqlCommand removeRow = new SqlCommand($"DELETE FROM PanelCostLaminateMaterial WHERE Type='{type}';", cnn))
+                    {
+                        cnn.Open();
+                        removeRow.ExecuteNonQuery();
+                        return true;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return false;
             }
         }
 

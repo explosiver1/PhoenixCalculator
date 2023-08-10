@@ -91,6 +91,8 @@
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
                                 <RowDefinition Height="20"/>
                             </Grid.RowDefinitions>
 
@@ -108,34 +110,15 @@
                             <TextBox Grid.Row="6" Grid.Column="2"  Text="{Binding addItemPrice}" Watermark="Price..."/>
                             <TextBlock Grid.Row="7" Grid.Column="1"  Text="User Initials:" />
                             <TextBox Grid.Row="7" Grid.Column="2"  Text="{Binding addItemLastUpdatedBy}" Watermark="Initials..."/>
+                            <Button Grid.Row="8" Grid.Column="1" Command="{Binding AddPanelCostItem}" Content="Add Panel Cost DB Item"/>
+                            <TextBlock Grid.Row="9" Grid.Column="1" Text="{Binding addItemStatus}" />
+                            <Button Grid.Row="8" Grid.Column="2" Command="{Binding RemoveWoodMaterial}" Content="Remove Selected Wood Material"/>
+                            <Button Grid.Row="8" Grid.Column="3" Command="{Binding RemoveLam1}" Content="Remove Selected Laminate Side 1"/>
+                            <Button Grid.Row="8" Grid.Column="4" Command="{Binding RemoveLam2}" Content="Remove Selected Laminate Side 2"/>
+                            <TextBlock Grid.Row="9" Grid.Column="3" Text="{Binding removeItemStatus}" />
+                            
                         </Grid>
-                        
-                        
-                        
-                        <StackPanel Orientation="Horizontal" Spacing="5">
 
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Spacing="5">
-                            
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Spacing="5">
-                            
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Spacing="5">
-                            
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Spacing="5">
-                            
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Spacing="5">
-                            
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Spacing="5">
-                            
-                        </StackPanel>
-                        
-                        <Button Command="{Binding AddPanelCostItem}" Content="Add Panel Cost DB Item"/>
-                        <TextBlock Text="{Binding addItemStatus}" />
                     </StackPanel>
                 </StackPanel>
     </ScrollViewer>
