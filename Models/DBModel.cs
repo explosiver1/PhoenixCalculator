@@ -44,9 +44,11 @@ namespace PhoenixCalculator_Avallon.Models
         private DBModel()
         {
             settings = new Settings();
-            LoadSettingsFromFile();
-            SetConnString();
-            TestDBConn();
+            if (LoadSettingsFromFile())
+            {
+                SetConnString();
+                TestDBConn();
+            }
         }
 
         public static DBModel GetInstance()
@@ -61,45 +63,53 @@ namespace PhoenixCalculator_Avallon.Models
 
         public void SetConnString()
         {
-            SqlConnectionStringBuilder sb = new SqlConnectionStringBuilder();
-            if (settings.winAuth)
+            if (settings.server != "")
             {
-                sb["Data Source"] = settings.server;
-                sb["integrated security"] = true;
-                sb["Initial Catalog"] = "Calculator";
-                sqlConnString = sb.ConnectionString;
-                
+                SqlConnectionStringBuilder sb = new SqlConnectionStringBuilder();
+                if (settings.winAuth)
+                {
+                    sb["Data Source"] = settings.server;
+                    sb["integrated security"] = true;
+                    sb["Initial Catalog"] = "Calculator";
+                    sqlConnString = sb.ConnectionString;
+
+                }
+                else
+                {
+                    sb["Server"] = settings.server;
+                    sb["User Id"] = settings.un;
+                    sb["Password"] = settings.pw;
+                    sqlConnString = sb.ConnectionString;
+                }
             } else
             {
-                sb["Server"] = settings.server;
-                sb["User Id"] = settings.un;
-                sb["Password"] = settings.pw;
-                sqlConnString = sb.ConnectionString;
+                sqlConnString = "";
             }
-            
         }
 
         public bool TestDBConn()
         {
-            try
-            {
-                using (SqlConnection cnn = new SqlConnection(sqlConnString))
+            if (sqlConnString != "" && sqlConnString != null) { 
+                try
                 {
-                    cnn.Open();
-                    Console.WriteLine("SQL Connection Works");
-                    cnn.Close();
-                    return true;
+                    using (SqlConnection cnn = new SqlConnection(sqlConnString))
+                    {
+                        cnn.Open();
+                        Console.WriteLine("SQL Connection Works");
+                        cnn.Close();
+                        return true;
+                    }
                 }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                Console.WriteLine("We dun goofed");
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    Console.WriteLine("We dun goofed");
+                }
             }
             return false;
         }
 
-        private void LoadSettingsFromFile()
+        private bool LoadSettingsFromFile()
         {
             try
             {
@@ -112,10 +122,12 @@ namespace PhoenixCalculator_Avallon.Models
                 settings.un = data[1];
                 settings.pw = data[2];
                 settings.winAuth = Convert.ToBoolean(data[3]);
+                return true;
                 
             } catch (Exception e)
             {
                 Console.WriteLine(e);
+                return false;
             }
         }
 
@@ -221,14 +233,15 @@ namespace PhoenixCalculator_Avallon.Models
         }
         public bool AddPanelCostLaminateMaterial(string type, string panelWidth, string panelHeight, string price, string date, string lastUpdatedBy)
         {
-            LaminateSiding ls = GetLaminateSiding(type, panelHeight, panelWidth);
+            //Attempts to load a laminate panel matching that name. If it exists, it performs a SQL update statement instead of an insert.
+            LaminateSiding ls = GetLaminateSiding(type);
             if (ls.type != "Error")
             {
                 try
                 {
                     using (SqlConnection cnn = new SqlConnection(sqlConnString))
                     {
-                        using (SqlCommand updateRow = new SqlCommand($"UPDATE PanelCostLaminateMaterial SET Price={price} Date={date} LastUpdatedBy={lastUpdatedBy} WHERE Type='{type}' AND PanelHeight='{panelHeight}' AND PanelWidth='{panelHeight}';", cnn))
+                        using (SqlCommand updateRow = new SqlCommand($"UPDATE PanelCostLaminateMaterial SET Price='{price}', Date='{date}',  Width='{panelWidth}', Height='{panelHeight}', LastUpdatedBy='{lastUpdatedBy}' WHERE Type='{type}';", cnn))
                         {
                             cnn.Open();
                             updateRow.ExecuteNonQuery();
@@ -249,50 +262,6 @@ namespace PhoenixCalculator_Avallon.Models
                     using (SqlConnection cnn = new SqlConnection(sqlConnString))
                     {
                         using (SqlCommand insertRow = new SqlCommand($"INSERT INTO PanelCostLaminateMaterial VALUES ('{type}', '{panelWidth}', '{panelHeight}', '{price}', '{date}', '{lastUpdatedBy}');", cnn))
-                        {
-                            cnn.Open();
-                            insertRow.ExecuteNonQuery();
-                            return true;
-                        }
-                    }
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                    return false;
-                }
-            }
-        }
-        public bool AddPanelCostSpecialFinish(string type, string price, string date, string lastUpdatedBy)
-        {
-            SpecialtyFinish sf = GetSpecialtyFinish(type);
-            if (sf.type != "Error")
-            {
-                try
-                {
-                    using (SqlConnection cnn = new SqlConnection(sqlConnString))
-                    {
-                        using (SqlCommand updateRow = new SqlCommand($"UPDATE PanelCostSpecialFinishes SET SQFTPrice={price} Date={date} LastUpdatedBy={lastUpdatedBy} WHERE Type='{type}';", cnn))
-                        {
-                            cnn.Open();
-                            updateRow.ExecuteNonQuery();
-                            return true;
-                        }
-                    }
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                    return false;
-                }
-            }
-            else
-            {
-                try
-                {
-                    using (SqlConnection cnn = new SqlConnection(sqlConnString))
-                    {
-                        using (SqlCommand insertRow = new SqlCommand($"INSERT INTO PanelCostSpecialFinishes VALUES ('{type}', '{price}', '{date}', '{lastUpdatedBy}');", cnn))
                         {
                             cnn.Open();
                             insertRow.ExecuteNonQuery();
@@ -373,35 +342,6 @@ namespace PhoenixCalculator_Avallon.Models
             }
         }
 
-        public string[] GetSpecialFinishTypes()
-        {
-            string[] types = new string[1000];
-            try
-            {
-                using (SqlConnection cnn = new SqlConnection(sqlConnString))
-                {
-                    using (SqlCommand selectDB = new SqlCommand("SELECT DISTINCT Type FROM PanelCostSpecialFinishes ORDER BY Type;", cnn))
-                    {
-                        cnn.Open();
-                        using (SqlDataReader reader = selectDB.ExecuteReader())
-                        {
-                            int i = 0;
-                            while (reader.Read())
-                            {
-                                types[i] = reader.GetString(0);
-                                i++;
-                            }
-                        }
-                    }
-                }
-                return types;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                return new string[1];
-            }
-        }
         public WoodPanel GetWoodPanel(string type, string thickness, string height, string width)
         {
             WoodPanel woodPanel = new WoodPanel();
@@ -513,14 +453,14 @@ namespace PhoenixCalculator_Avallon.Models
                 return new string[1];
             }
         }
-        public LaminateSiding GetLaminateSiding(string type, string height, string width)
+        public LaminateSiding GetLaminateSiding(string type)
         {
             LaminateSiding lamSide = new LaminateSiding();
             try
             {
                 using (SqlConnection cnn = new SqlConnection(sqlConnString))
                 {
-                    using (SqlCommand selectDB = new SqlCommand($"SELECT * FROM PanelCostLaminateMaterial WHERE Type='{type}' AND Height='{height}' AND Width='{width}';", cnn))
+                    using (SqlCommand selectDB = new SqlCommand($"SELECT * FROM PanelCostLaminateMaterial WHERE Type='{type}';", cnn))
                     {
                         cnn.Open();
                         using (SqlDataReader reader = selectDB.ExecuteReader())
@@ -547,37 +487,7 @@ namespace PhoenixCalculator_Avallon.Models
                 return new LaminateSiding();
             }
         }
-        public SpecialtyFinish GetSpecialtyFinish(string type)
-        {
-            SpecialtyFinish sFin = new SpecialtyFinish();
-            try
-            {
-                using (SqlConnection cnn = new SqlConnection(sqlConnString))
-                {
-                    using (SqlCommand selectDB = new SqlCommand($"SELECT * FROM PanelCostSpecialFinishes WHERE Type='{type}';", cnn))
-                    {
-                        cnn.Open();
-                        using (SqlDataReader reader = selectDB.ExecuteReader())
-                        {
-
-                            while (reader.Read())
-                            {
-                                sFin.type = reader.GetString(0);
-                                sFin.price = (float)reader.GetDouble(1);
-                                sFin.date = reader.GetString(2);
-                                sFin.lastUpdatedBy = reader.GetString(3);
-                            }
-                        }
-                    }
-                }
-                return sFin;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                return new SpecialtyFinish();
-            }
-        }
+       
 
     }
 
@@ -612,14 +522,6 @@ namespace PhoenixCalculator_Avallon.Models
         public string type = "Error";
         public int sidingWidth = 9999;
         public int sidingHeight = 9999;
-        public float price = 9999f;
-        public string date = "1/1/1900";
-        public string lastUpdatedBy = "System";
-    }
-
-    public class SpecialtyFinish
-    {
-        public string type = "Error";
         public float price = 9999f;
         public string date = "1/1/1900";
         public string lastUpdatedBy = "System";
