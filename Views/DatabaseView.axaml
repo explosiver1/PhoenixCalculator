@@ -1,0 +1,52 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:PhoenixCalculator_Avallon.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="PhoenixCalculator_Avallon.Views.DatabaseView"
+             x:DataType="vm:DatabaseViewModel">
+    <StackPanel Orientation="Horizontal">
+        <DataGrid Margin="20"
+                  ItemsSource="{Binding woodPanels}"
+                  IsReadOnly="True"
+                  CanUserResizeColumns="True"
+                  CanUserReorderColumns="True"
+                  CanUserSortColumns="True"
+                  GridLinesVisibility="All"
+                  BorderThickness="1"
+                  BorderBrush="Gray"
+                  HorizontalAlignment="Left" 
+                  VerticalAlignment="Top">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Type" Binding="{Binding type}"/>
+                <DataGridTextColumn Header="Thickness" Binding="{Binding thickness}"/>
+                <DataGridTextColumn Header="Width" Binding="{Binding panelWidth}"/>
+                <DataGridTextColumn Header="Height" Binding="{Binding panelHeight}"/>
+                <DataGridTextColumn Header="Price" Binding="{Binding price}"/>
+                <DataGridTextColumn Header="Date" Binding="{Binding date}"/>
+                <DataGridTextColumn Header="Last Updated By" Binding="{Binding lastUpdatedBy}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <DataGrid Margin="20"
+                  ItemsSource="{Binding laminates}"
+                  IsReadOnly="True"
+                  CanUserResizeColumns="True"
+                  CanUserReorderColumns="True"
+                  CanUserSortColumns="True"
+                  GridLinesVisibility="All"
+                  BorderThickness="1"
+                  BorderBrush="Gray"
+                  HorizontalAlignment="Left"
+                  VerticalAlignment="Top">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Type" Binding="{Binding type}"/>
+                <DataGridTextColumn Header="Width" Binding="{Binding sidingWidth}"/>
+                <DataGridTextColumn Header="Height" Binding="{Binding sidingHeight}"/>
+                <DataGridTextColumn Header="Price" Binding="{Binding price}"/>
+                <DataGridTextColumn Header="Date" Binding="{Binding date}"/>
+                <DataGridTextColumn Header="Last Updated By" Binding="{Binding lastUpdatedBy}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </StackPanel>
+</UserControl>

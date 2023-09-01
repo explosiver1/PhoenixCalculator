@@ -1,14 +1,11 @@
-﻿using Avalonia.Interactivity;
-using PhoenixCalculator_Avallon.Models;
-using ReactiveUI;
-using System.Diagnostics;
+﻿using ReactiveUI;
 
 namespace PhoenixCalculator_Avallon.ViewModels;
 
 public class MainWindowViewModel : ReactiveObject
 {
     public string Greeting => "Welcome to Avalonia!";
-   
+
 
 
     // Code to add a view model from the MainWindowViewModel. 
@@ -16,8 +13,8 @@ public class MainWindowViewModel : ReactiveObject
     // Note: We need at least a get-accessor for our Properties.
     public MainWindowViewModel()
     {
-        
+
     }
-        
-}    
+
+}
 

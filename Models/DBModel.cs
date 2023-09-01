@@ -1,22 +1,14 @@
-﻿using System;
-using System.Collections.Generic;   
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Data;
+﻿using Avalonia;
+using DynamicData;
+using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Security.Cryptography.X509Certificates;
-using System.Security.Cryptography;
-using lib_of_jared;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 using System.IO;
-using Avalonia;
 
 namespace PhoenixCalculator_Avallon.Models
 {
     //This is the main model that connects to SQL and interfaces with the view models. 
-    public class DBModel 
+    public class DBModel
     {
         /*
          Note about SQL in C#:
@@ -33,12 +25,12 @@ namespace PhoenixCalculator_Avallon.Models
             float in C# maps to real in SQL.
             double in C# maps to float in SQL. 
          */
-        private string sqlConnString ="";
+        private string sqlConnString = "";
         public Settings settings;
         //Singleton for the DBModel. 
         //I can leave most things public and non-static by just making the constructor private and leaving a static method to get the instance.
         private static DBModel _instance;
-     
+
 
         //Constructor
         private DBModel()
@@ -81,7 +73,8 @@ namespace PhoenixCalculator_Avallon.Models
                     sb["Password"] = settings.pw;
                     sqlConnString = sb.ConnectionString;
                 }
-            } else
+            }
+            else
             {
                 sqlConnString = "";
             }
@@ -89,7 +82,8 @@ namespace PhoenixCalculator_Avallon.Models
 
         public bool TestDBConn()
         {
-            if (sqlConnString != "" && sqlConnString != null) { 
+            if (sqlConnString != "" && sqlConnString != null)
+            {
                 try
                 {
                     using (SqlConnection cnn = new SqlConnection(sqlConnString))
@@ -123,8 +117,9 @@ namespace PhoenixCalculator_Avallon.Models
                 settings.pw = data[2];
                 settings.winAuth = Convert.ToBoolean(data[3]);
                 return true;
-                
-            } catch (Exception e)
+
+            }
+            catch (Exception e)
             {
                 Console.WriteLine(e);
                 return false;
@@ -138,56 +133,58 @@ namespace PhoenixCalculator_Avallon.Models
             if (settings != null)
             {
                 string path = @"%AppData%";
-                path =  Environment.ExpandEnvironmentVariables(path);
+                path = Environment.ExpandEnvironmentVariables(path);
                 path = path + @"\PHXCalcSettings.json";
                 string data = settings.server + " " + settings.un + " " + settings.pw + " " + settings.winAuth.ToString();
                 File.WriteAllText(path, data);
                 return true;
-            } else
+            }
+            else
             {
                 return false;
             }
         }
 
-         //This was a test function. Don't use it in any production code.
-      /*  public WoodPanel[] LoadPanelCostCalcWoodMaterials()
+        //This was a test function. Don't use it in any production code.
+        /*  public WoodPanel[] LoadPanelCostCalcWoodMaterials()
+          {
+              try
+              {
+                  using (SqlConnection cnn = new SqlConnection(sqlConnString))
+                  {
+                      using (SqlCommand selectDB = new SqlCommand("SELECT * FROM PanelCostWoodMaterial;", cnn))
+                      {
+                          cnn.Open();
+                          using (SqlDataReader reader = selectDB.ExecuteReader())
+                          {
+
+                              int i = 0;
+                               while (reader.Read())
+                               {
+                                  woodPanels[i] = new WoodPanel();
+                                   woodPanels[i].type = reader.GetString(1);
+                                   woodPanels[i].thickness = (float) reader.GetDouble(2);
+                                   woodPanels[i].panelWidth = reader.GetInt32(3);
+                                   woodPanels[i].panelHeight = reader.GetInt32(4);
+                                   woodPanels[i].price = (float) reader.GetDouble(5);
+                                   woodPanels[i].date = reader.GetString(6);
+                                   woodPanels[i].lastUpdatedBy = reader.GetString(7);
+                                   i++;
+                               //if (i == woodPanels.Length) woodPanels = WoodPanel.ExpandArray(woodPanels);
+                               }
+                          }
+                      }
+                      return woodPanels;
+                  }
+              } catch (Exception e)
+              {
+                  Console.WriteLine(e);
+                  return new WoodPanel[1];
+              }
+          } */
+
+        public bool AddPanelCostWoodMaterial(string type, string thickness, string panelWidth, string panelHeight, string price, string date, string lastUpdatedBy)
         {
-            try
-            {
-                using (SqlConnection cnn = new SqlConnection(sqlConnString))
-                {
-                    using (SqlCommand selectDB = new SqlCommand("SELECT * FROM PanelCostWoodMaterial;", cnn))
-                    {
-                        cnn.Open();
-                        using (SqlDataReader reader = selectDB.ExecuteReader())
-                        {
-
-                            int i = 0;
-                             while (reader.Read())
-                             {
-                                woodPanels[i] = new WoodPanel();
-                                 woodPanels[i].type = reader.GetString(1);
-                                 woodPanels[i].thickness = (float) reader.GetDouble(2);
-                                 woodPanels[i].panelWidth = reader.GetInt32(3);
-                                 woodPanels[i].panelHeight = reader.GetInt32(4);
-                                 woodPanels[i].price = (float) reader.GetDouble(5);
-                                 woodPanels[i].date = reader.GetString(6);
-                                 woodPanels[i].lastUpdatedBy = reader.GetString(7);
-                                 i++;
-                             //if (i == woodPanels.Length) woodPanels = WoodPanel.ExpandArray(woodPanels);
-                             }
-                        }
-                    }
-                    return woodPanels;
-                }
-            } catch (Exception e)
-            {
-                Console.WriteLine(e);
-                return new WoodPanel[1];
-            }
-        } */
-
-        public bool AddPanelCostWoodMaterial(string type, string thickness, string panelWidth, string panelHeight, string price, string date, string lastUpdatedBy) {
 
             WoodPanel wp = GetWoodPanel(type, thickness, panelHeight, panelWidth);
             if (!wp.type.Equals("Error"))
@@ -233,23 +230,23 @@ namespace PhoenixCalculator_Avallon.Models
         }
         public bool RemovePanelCostWoodMaterial(string type, string thickness, string panelWidth, string panelHeight)
         {
-                try
+            try
+            {
+                using (SqlConnection cnn = new SqlConnection(sqlConnString))
                 {
-                    using (SqlConnection cnn = new SqlConnection(sqlConnString))
+                    using (SqlCommand removeRow = new SqlCommand($"DELETE FROM PanelCostWoodMaterial WHERE Type='{type}' AND Thickness='{thickness}' AND PanelWidth='{panelWidth}' AND PanelHeight='{panelHeight}';", cnn))
                     {
-                        using (SqlCommand removeRow = new SqlCommand($"DELETE FROM PanelCostWoodMaterial WHERE Type='{type}' AND Thickness='{thickness}' AND PanelWidth='{panelWidth}' AND PanelHeight='{panelHeight}';", cnn))
-                        {
-                            cnn.Open();
-                            removeRow.ExecuteNonQuery();
-                            return true;
-                        }
+                        cnn.Open();
+                        removeRow.ExecuteNonQuery();
+                        return true;
                     }
                 }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                    return false;
-                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return false;
+            }
         }
         public bool AddPanelCostLaminateMaterial(string type, string panelWidth, string panelHeight, string price, string date, string lastUpdatedBy)
         {
@@ -319,7 +316,7 @@ namespace PhoenixCalculator_Avallon.Models
 
         public string FormatDate(int day, int month, int year)
         {
-            return day.ToString() +"-"+ month.ToString() + "-" + year.ToString();
+            return day.ToString() + "-" + month.ToString() + "-" + year.ToString();
         }
         //This is for loading a list of different wood panels for selection in Panel Cost Calculator
         public string[] GetWoodPanelMaterialTypes()
@@ -329,7 +326,7 @@ namespace PhoenixCalculator_Avallon.Models
             {
                 using (SqlConnection cnn = new SqlConnection(sqlConnString))
                 {
-                    using (SqlCommand cmd    = new SqlCommand("SELECT DISTINCT Type FROM PanelCostWoodMaterial ORDER BY Type;", cnn))
+                    using (SqlCommand cmd = new SqlCommand("SELECT DISTINCT Type FROM PanelCostWoodMaterial ORDER BY Type;", cnn))
                     {
                         cnn.Open();
                         using (SqlDataReader reader = cmd.ExecuteReader())
@@ -394,7 +391,7 @@ namespace PhoenixCalculator_Avallon.Models
                         cnn.Open();
                         using (SqlDataReader reader = selectDB.ExecuteReader())
                         {
-                    
+
                             while (reader.Read())
                             {
                                 woodPanel.type = reader.GetString(0);
@@ -426,7 +423,7 @@ namespace PhoenixCalculator_Avallon.Models
             string[] thicknesses = new string[100];
             try
             {
-                
+
                 using (SqlConnection cnn = new SqlConnection(sqlConnString))
                 {
                     string sqlCommString = $"SELECT DISTINCT Thickness FROM PanelCostWoodMaterial WHERE Type='{type}';";
@@ -465,7 +462,7 @@ namespace PhoenixCalculator_Avallon.Models
                     string sqlCommString;
                     if (thickness != "") sqlCommString = $"SELECT CONCAT(PanelWidth, 'x', PanelHeight) FROM PanelCostWoodMaterial WHERE Type='{type}'AND Thickness='{thickness}';";
                     else return new string[1];
-                        //sqlCommString = $"SELECT PanelWidth, PanelHeight FROM PanelCostWoodMaterial WHERE Type='{type}';";
+                    //sqlCommString = $"SELECT PanelWidth, PanelHeight FROM PanelCostWoodMaterial WHERE Type='{type}';";
                     using (SqlCommand selectDB = new SqlCommand(sqlCommString, cnn))
                     {
                         cnn.Open();
@@ -527,23 +524,98 @@ namespace PhoenixCalculator_Avallon.Models
                 return new LaminateSiding();
             }
         }
-       
 
+        public List<WoodPanel> GetWoodPanelTable()
+        {
+            List<WoodPanel> woodPanels = new List<WoodPanel>();
+            WoodPanel woodPanel;
+            try
+            {
+                using (SqlConnection cnn = new SqlConnection(sqlConnString))
+                {
+                    using (SqlCommand selectDB = new SqlCommand("SELECT * FROM PanelCostWoodMaterial;", cnn))
+                    {
+                        cnn.Open();
+                        using (SqlDataReader reader = selectDB.ExecuteReader())
+                        {
+
+                            while (reader.Read())
+                            {
+                                woodPanel = new WoodPanel();
+                                woodPanel.type = reader.GetString(0);
+                                woodPanel.thickness = (float)reader.GetDouble(1);
+                                woodPanel.panelWidth = reader.GetInt32(2);
+                                woodPanel.panelHeight = reader.GetInt32(3);
+                                woodPanel.price = (float)reader.GetDouble(4);
+                                woodPanel.date = reader.GetString(5);
+                                woodPanel.lastUpdatedBy = reader.GetString(6);
+                                woodPanels.Add(woodPanel);
+                            }
+                        }
+                    }
+                }
+                return woodPanels;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                woodPanels.Add(new WoodPanel() { type = "ERROR" });
+                return woodPanels;
+            }
+        }
+
+        public List<LaminateSiding> GetLaminateTable()
+        {
+            List<LaminateSiding> laminates = new List<LaminateSiding>();
+            LaminateSiding lamSide;
+            try
+            {
+                using (SqlConnection cnn = new SqlConnection(sqlConnString))
+                {
+                    using (SqlCommand selectDB = new SqlCommand("SELECT * FROM PanelCostLaminateMaterial;", cnn))
+                    {
+                        cnn.Open();
+                        using (SqlDataReader reader = selectDB.ExecuteReader())
+                        {
+
+                            while (reader.Read())
+                            {
+                                lamSide = new LaminateSiding();
+                                lamSide.type = reader.GetString(0);
+                                lamSide.sidingWidth = reader.GetInt32(1);
+                                lamSide.sidingHeight = reader.GetInt32(2);
+                                lamSide.price = (float)reader.GetDouble(3);
+                                lamSide.date = reader.GetString(4);
+                                lamSide.lastUpdatedBy = reader.GetString(5);
+                                laminates.Add(lamSide);
+                            }
+                        }
+                    }
+                }
+                return laminates;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                laminates.Add(new LaminateSiding() { type = "ERROR" });
+                return laminates;
+            }
+        }
     }
 
     //Data Classes
     //These represent sets of data and a few static functions. 
     public class WoodPanel
     {
-        public string type = "Error";
-        public float thickness = 9999f;
-        public int panelWidth = 9999;
-        public int panelHeight = 9999;
-        public float price = 9999f;
-        public string date = "1/1/1900";
-        public string lastUpdatedBy = "System";
+        public string type { get; set; } = "Error";
+        public float thickness { get; set; } = 9999f;
+        public int panelWidth { get; set; } = 9999;
+        public int panelHeight { get; set; } = 9999;
+        public float price { get; set; } = 9999f;
+        public string date { get; set; } = "1/1/1900";
+        public string lastUpdatedBy { get; set; } = "System";
 
-        public static WoodPanel[] ExpandArray(WoodPanel[] arr)
+        /*public static WoodPanel[] ExpandArray(WoodPanel[] arr)
         {
             //Performs dynamic array expansion
             int newBound = arr.Length * 2;
@@ -553,18 +625,18 @@ namespace PhoenixCalculator_Avallon.Models
             {
                 newArr[i] = arr[i];
             }
-            return newArr;
-        }
+            return newArr; 
+        }*/
     }
 
     public class LaminateSiding
     {
-        public string type = "Error";
-        public int sidingWidth = 9999;
-        public int sidingHeight = 9999;
-        public float price = 9999f;
-        public string date = "1/1/1900";
-        public string lastUpdatedBy = "System";
+        public string type { get; set; } = "Error";
+        public int sidingWidth { get; set; } = 9999;
+        public int sidingHeight { get; set; } = 9999;
+        public float price { get; set; } = 9999f;
+        public string date { get; set; } = "1/1/1900";
+        public string lastUpdatedBy { get; set; } = "System";
     }
 
     public class Settings

@@ -1,5 +1,4 @@
 using Avalonia.Controls;
-using Avalonia.Interactivity;
 using PhoenixCalculator_Avallon.ViewModels;
 
 namespace PhoenixCalculator_Avallon.Views;

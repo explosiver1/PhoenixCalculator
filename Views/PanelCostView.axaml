@@ -15,17 +15,20 @@
                     <Grid Margin="5">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="20"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="20"/>
                         </Grid.ColumnDefinitions>
 
                         <Grid.RowDefinitions>
                             <RowDefinition Height="20"/>
+                            <RowDefinition Height="*"/>
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="*"/>
@@ -47,11 +50,13 @@
                         <TextBlock Grid.Row="4" Grid.Column="2" Text="{Binding dateLastUpdated}"/>
                         <TextBlock Grid.Row="5" Grid.Column="1" Text="Last Updated By:" />
                         <TextBlock Grid.Row="5" Grid.Column="2" Text="{Binding lastUpdatedBy}"/>
-                        <Button Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="2" Command="{Binding UpdatePanelCost}" Content="Calculate"/>
-                        <TextBlock Grid.Row="7" Grid.Column="1" Text="Total Panel Cost:" FontSize="18"/>
-                        <TextBlock Grid.Row="7" Grid.Column="2" Text="{Binding calculatedPanelCost}" FontSize="18" />
-                        <TextBlock Grid.Row="8" Grid.Column="1" Text="Square Foot Panel Cost:" FontSize="18"/>
-                        <TextBlock Grid.Row="8" Grid.Column="2" Text="{Binding calculatedSQFTPanelCost}" FontSize="18" />
+                        <Button Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2" Command="{Binding UpdatePanelCost}" Content="Calculate"/>
+                        <TextBlock Grid.Row="8" Grid.Column="1" Text="Total Panel Cost:" FontSize="18"/>
+                        <TextBlock Grid.Row="8" Grid.Column="2" Text="{Binding calculatedPanelCost}" FontSize="18" />
+                        <TextBlock Grid.Row="9" Grid.Column="1" Text="Square Foot Panel Cost:" FontSize="18"/>
+                        <TextBlock Grid.Row="9" Grid.Column="2" Text="{Binding calculatedSQFTPanelCost}" FontSize="18" />
+                        <TextBlock Grid.Column="1" Grid.Row="6" Text="Wood Material Price:" />
+                        <TextBox Grid.Column="2" Grid.Row="6" Text="{Binding woodPanelPrice}" />
                             
                         <TextBlock Grid.Column="3" Grid.Row="1" Text="Plywood" />
                         <CheckBox Grid.Column="4" Grid.Row="1" IsChecked="{Binding isPlywood}"/>
@@ -59,12 +64,19 @@
                         <ComboBox Grid.Column="4" Grid.Row="2" ItemsSource="{Binding laminateSidingTypes1}" SelectedValue="{Binding selectedLaminateSidingType1}"/>
                         <TextBlock Grid.Row="2" Grid.Column="5" Text="{Binding dateLam1LastUpdated}" FontSize="18" />
                         <TextBlock Grid.Row="2" Grid.Column="6" Text="{Binding lam1LastUpdatedBy}" FontSize="18" />
+                        <TextBox Grid.Row="2" Grid.Column="7" Text="{Binding lam1Price}" FontSize="18" />
                         <TextBlock Grid.Column="3" Grid.Row="3" Text="Side 2 Laminate" />
                         <ComboBox Grid.Column="4" Grid.Row="3" ItemsSource="{Binding laminateSidingTypes2}" SelectedValue="{Binding selectedLaminateSidingType2}"/>
                         <TextBlock Grid.Row="3" Grid.Column="5" Text="{Binding dateLam2LastUpdated}" FontSize="18" />
                         <TextBlock Grid.Row="3" Grid.Column="6" Text="{Binding lam2LastUpdatedBy}" FontSize="18" />
+                        <TextBox Grid.Row="3" Grid.Column="7" Text="{Binding lam2Price}" FontSize="18" />
                         <TextBlock Grid.Column="3" Grid.Row="4" Text="Premium Finish SQFT Price:" />
                         <TextBox Grid.Column="4" Grid.Row="4" Text="{Binding specialFinishPrice}"/>
+                        <TextBox Grid.Column="8" Grid.Row="2" Text="{Binding lam1Dimensions}" />
+                        <TextBox Grid.Column="8" Grid.Row="3" Text="{Binding lam2Dimensions}" />
+                        
+                        
+                        
                         
                         
                     </Grid>

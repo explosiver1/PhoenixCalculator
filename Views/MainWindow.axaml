@@ -20,6 +20,10 @@
         <TabItem Header="Settings">
             <views:SettingsView />
         </TabItem>
+
+        <TabItem Header="Database">
+            <views:DatabaseView />
+        </TabItem>
         
     </TabControl>
 </Window>

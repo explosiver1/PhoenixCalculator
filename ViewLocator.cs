@@ -1,7 +1,7 @@
-using System;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 using PhoenixCalculator_Avallon.ViewModels;
+using System;
 
 namespace PhoenixCalculator_Avallon;
 
@@ -16,7 +16,7 @@ public class ViewLocator : IDataTemplate
         {
             return (Control)Activator.CreateInstance(type)!;
         }
-        
+
         return new TextBlock { Text = "Not Found: " + name };
     }
 

@@ -18,6 +18,9 @@ build_property.ProjectDir = C:\Users\jholston\Developer\PhoenixCalculator\
 [C:/Users/jholston/Developer/PhoenixCalculator/App.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
+[C:/Users/jholston/Developer/PhoenixCalculator/Views/DatabaseView.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
 [C:/Users/jholston/Developer/PhoenixCalculator/Views/MainWindow.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 

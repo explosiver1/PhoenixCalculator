@@ -1,6 +1,4 @@
-using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Markup.Xaml;
 using PhoenixCalculator_Avallon.ViewModels;
 
 namespace PhoenixCalculator_Avallon.Views;
