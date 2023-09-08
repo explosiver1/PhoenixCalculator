@@ -10,7 +10,7 @@
         
     
                 <StackPanel  Spacing="10">
-                    <TextBlock Text="Calculate Panel Cost Section:" FontSize="20"/>
+                    <TextBlock Text="Calculate Panel Cost:" FontSize="20"/>
                     <Button Command="{Binding Refresh}" Content="Refresh"/>
                     <Grid Margin="5">
                         <Grid.ColumnDefinitions>
@@ -83,7 +83,7 @@
                     
 
                     <StackPanel Spacing="5">
-                        <TextBlock Text="Add Item to Database Section:" FontSize="20"/>
+                        <TextBlock Text="Modify Database:" FontSize="20"/>
                         <Grid Margin="5">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="20"/>
@@ -124,9 +124,24 @@
                             <TextBox Grid.Row="7" Grid.Column="2"  Text="{Binding addItemLastUpdatedBy}" Watermark="Initials..."/>
                             <Button Grid.Row="8" Grid.Column="1" Command="{Binding AddPanelCostItem}" Content="Add Panel Cost DB Item"/>
                             <TextBlock Grid.Row="9" Grid.Column="1" Text="{Binding addItemStatus}" />
-                            <Button Grid.Row="8" Grid.Column="2" Command="{Binding RemoveWoodMaterial}" Content="Remove Selected Wood Material"/>
-                            <Button Grid.Row="8" Grid.Column="3" Command="{Binding RemoveLam1}" Content="Remove Selected Laminate Side 1"/>
-                            <Button Grid.Row="8" Grid.Column="4" Command="{Binding RemoveLam2}" Content="Remove Selected Laminate Side 2"/>
+
+
+
+                            <TextBlock Grid.Row="1" Grid.Column="3" Text="Type:" />
+                            <ComboBox Grid.Row="1" Grid.Column="4" ItemsSource="{Binding _removeTypes}" SelectedValue="{Binding selectedRemoveType}"/>
+                            <TextBlock Grid.Row="2" Grid.Column="3"  Text="Name:" />
+                            <ComboBox Grid.Row="2" Grid.Column="4"  ItemsSource="{Binding removeItemNames}" SelectedValue="{Binding selectedRemoveItemName}"/>
+                            <TextBlock Grid.Row="3" Grid.Column="3"  Text="Thickness:" />
+                            <TextBox Grid.Row="3" Grid.Column="4"  Text="{Binding addItemThickness}" Watermark="Thickness..."/>
+                            <TextBlock Grid.Row="4" Grid.Column="3"  Text="Width:" />
+                            <TextBox Grid.Row="4" Grid.Column="4"  Text="{Binding addItemWidth}" Watermark="Width..."/>
+                            <TextBlock Grid.Row="5" Grid.Column="3"  Text="Height:" />
+                            <TextBox Grid.Row="5" Grid.Column="4"  Text="{Binding addItemHeight}" Watermark="Height..."/>
+                            <TextBlock Grid.Row="6" Grid.Column="3"  Text="Price:" />
+                            <TextBox Grid.Row="6" Grid.Column="4"  Text="{Binding addItemPrice}" Watermark="Price..."/>
+                            <TextBlock Grid.Row="7" Grid.Column="3"  Text="User Initials:" />
+                            <TextBox Grid.Row="7" Grid.Column="4"  Text="{Binding addItemLastUpdatedBy}" Watermark="Initials..."/>
+                            <Button Grid.Row="8" Grid.Column="3" Command="{Binding RemoveSelectedItem}" Content="Remove Selected Item"/>
                             <TextBlock Grid.Row="9" Grid.Column="3" Text="{Binding removeItemStatus}" />
                             
                         </Grid>

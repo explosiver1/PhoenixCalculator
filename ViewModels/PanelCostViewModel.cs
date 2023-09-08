@@ -1,4 +1,5 @@
-﻿using PhoenixCalculator_Avallon.Models;
+﻿using Avalonia;
+using PhoenixCalculator_Avallon.Models;
 using ReactiveUI;
 using System;
 
@@ -88,7 +89,7 @@ public class PanelCostViewModel : ReactiveObject
         {
             this.RaiseAndSetIfChanged(ref _selectedWoodMaterialType, value);
             UpdatePanelThicknesses();
-            UpdateLastUpdateInfo();
+            UpdateWP();
         }
     }
     private string[] _laminateSidingTypes1 = new string[1];
@@ -104,7 +105,7 @@ public class PanelCostViewModel : ReactiveObject
         set
         {
             this.RaiseAndSetIfChanged(ref _selectedLaminateSidingType1, value);
-            UpdateLastUpdateInfo();
+            UpdateLamSide1();
         }
     }
 
@@ -121,7 +122,7 @@ public class PanelCostViewModel : ReactiveObject
         set
         {
             this.RaiseAndSetIfChanged(ref _selectedLaminateSidingType2, value);
-            UpdateLastUpdateInfo();
+            UpdateLamSide2();
         }
     }
     private string _specialFinishPrice = "0";
@@ -147,7 +148,7 @@ public class PanelCostViewModel : ReactiveObject
         {
             this.RaiseAndSetIfChanged(ref _selectedThickness, value);
             UpdatePanelDimensions();
-            UpdateLastUpdateInfo();
+            UpdateWP();
         }
     }
 
@@ -182,7 +183,7 @@ public class PanelCostViewModel : ReactiveObject
         {
             this.RaiseAndSetIfChanged(ref _selectedPanelDimensions, value);
             SplitPanelDimensions();
-            UpdateLastUpdateInfo();
+            UpdateWP();
         }
     }
 
@@ -321,6 +322,108 @@ public class PanelCostViewModel : ReactiveObject
         set => this.RaiseAndSetIfChanged(ref _isPlywood, value);
     }
 
+    //Remove Item Panel 
+
+    public string[] _removeTypes = new string[] { "Wood Panel", "Laminate" };
+    private string _selectedRemoveType;
+    public string selectedRemoveType
+    {
+        get { return _selectedRemoveType; }
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _selectedRemoveType, value);
+        }
+    }
+    private string[] _removeItemNames;
+    public string[] removeItemNames
+    {
+        get { return _removeItemNames; }
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _removeItemNames, value);
+            UpdateRemoveItemNames();
+        }
+    }
+    private string _selectedRemoveItemName;
+    public string selectedRemoveItemName
+    {
+        get { return _selectedRemoveItemName; }
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _selectedRemoveItemName, value);
+            UpdateRemoveThicknesses();
+        }
+    }
+    private string[] _removeThicknesses;
+    public string[] removeThicknesses
+    {
+        get { return _removeThicknesses; }
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _removeThicknesses, value);
+        }
+    }
+     private string _selectedRemoveThickness;
+    public string selectedRemoveThickness
+    {
+        get { return _selectedRemoveThickness; }
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _selectedRemoveThickness, value);
+            UpdateRemoveDimensions();
+        }
+    }
+    private string[] _removeDimensions;
+    public string[] removeDimensions
+    {
+        get { return _removeDimensions; }
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _removeDimensions, value);
+        }
+    }
+    private string _selectedRemoveDimension;
+    public string selectedRemoveDimension
+    {
+        get { return _selectedRemoveDimension; }
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _selectedRemoveDimension, value);
+            UpdateRemoveItemMiscInfo();
+        }
+    }
+
+    private string _removePrice;
+    public string removePrice
+    {
+        get { return _removePrice; }
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _removePrice, value);
+        }
+    }
+
+    private string _removeDateLastUpdated;
+    public string removeDateLastUpdated
+    {
+        get { return _removeDateLastUpdated; }
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _removeDateLastUpdated, value);
+        }
+    }
+
+    private string _removeLastUpdatedBy;
+    public string removeLastUpdatedBy
+    {
+        get { return _removeLastUpdatedBy; }
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _removeLastUpdatedBy, value);
+        }
+    }
+
+
     public PanelCostViewModel()
     {
         model = DBModel.GetInstance();
@@ -371,8 +474,18 @@ public class PanelCostViewModel : ReactiveObject
     }
     public void UpdateLastUpdateInfo()
     {
+
         //This should probably be separated into 3 different update functions where the relevant one is called when it's needed. 
         //I'll get around to it if it becomes a performance issue. I'll have to rewrite a handful of references.
+
+
+        UpdateWP();
+        UpdateLamSide1();
+        UpdateLamSide2();
+    }
+
+    public void UpdateWP()
+    {
         if (selectedWoodMaterialType != null && selectedThickness != null && selectedPanelDimensions != null)
         {
             WoodPanel wp = model.GetWoodPanel(selectedWoodMaterialType, selectedThickness, panelHeight, panelWidth);
@@ -385,7 +498,10 @@ public class PanelCostViewModel : ReactiveObject
             dateLastUpdated = "";
             lastUpdatedBy = "";
         }
+    }
 
+    public void UpdateLamSide1()
+    {
         if (selectedLaminateSidingType1 != null)
         {
             LaminateSiding lp = model.GetLaminateSiding(selectedLaminateSidingType1);
@@ -401,6 +517,10 @@ public class PanelCostViewModel : ReactiveObject
             lam1Price = "";
             lam1Dimensions = "";
         }
+    }
+
+    public void UpdateLamSide2()
+    {
         if (selectedLaminateSidingType2 != null)
         {
             LaminateSiding lp = model.GetLaminateSiding(selectedLaminateSidingType2);
@@ -506,6 +626,53 @@ public class PanelCostViewModel : ReactiveObject
             calculatedSQFTPanelCost = String.Format("{0:N2}", cpcs);
         }
     }
+    public void UpdateRemoveItemNames()
+    {
+        if (selectedRemoveType == "Wood Panel") removeItemNames = model.GetWoodPanelMaterialTypes();
+        else if (selectedRemoveType == "Laminate") removeItemNames = model.GetLaminateSidingTypes();
+        else removeItemNames = new string[0];
+    }
+
+    public void UpdateRemoveThicknesses()
+    {
+        if (selectedRemoveItemName != null)
+        {
+            removeThicknesses = model.GetWoodPanelThicknesses(selectedRemoveItemName);
+        }
+    }
+
+    public void UpdateRemoveDimensions()
+    {
+        if (selectedThickness != null && selectedRemoveItemName != null)
+        {
+            removeDimensions = model.GetWoodPanelDimensions(selectedRemoveItemName, selectedRemoveThickness);
+        }
+    }
+
+    public void UpdateRemoveItemMiscInfo()
+    {
+        string[] s = selectedRemoveDimension.Split('x');
+        if (selectedRemoveType == "Wood Panel" && s.Length == 2 && selectedRemoveItemName != null && selectedRemoveThickness != null)
+        {
+            WoodPanel wp = model.GetWoodPanel(selectedRemoveItemName, selectedRemoveThickness, s[1], s[0]);
+            removeDateLastUpdated = wp.date;
+            removeLastUpdatedBy = wp.lastUpdatedBy;
+            removePrice = wp.price.ToString();
+        }
+        else if (selectedRemoveType == "Laminate" && selectedRemoveItemName != null)
+        {
+            LaminateSiding ls = model.GetLaminateSiding(selectedRemoveItemName);
+            removeDateLastUpdated = ls.date;
+            removeLastUpdatedBy = ls.lastUpdatedBy;
+            removePrice = ls.price.ToString();
+        }
+        else
+        {
+            removeDateLastUpdated = "";
+            removeLastUpdatedBy = "";
+            removePrice = "";
+        }
+    }
 
     public void AddPanelCostItem()
     {
@@ -543,19 +710,31 @@ public class PanelCostViewModel : ReactiveObject
         }
     }
     //Buttons with slightly different criteria. 
-    public void RemoveWoodMaterial()
-    {
-        RemovePanelCostItem("Wood Panel", selectedWoodMaterialType, panelWidth, panelHeight, selectedThickness);
-    }
 
-    public void RemoveLam1()
+    public void RemoveSelectedItem()
     {
-        RemovePanelCostItem("Laminate", selectedLaminateSidingType1, panelWidth, panelHeight, selectedThickness);
-    }
+        string[] s = selectedRemoveDimension.Split('x');
 
-    public void RemoveLam2()
-    {
-        RemovePanelCostItem("Laminate", selectedLaminateSidingType2, panelWidth, panelHeight, selectedThickness);
+
+        if (s.Length == 2 && selectedRemoveType == "Wood Panel" && selectedRemoveThickness != null && selectedRemoveItemName != null)
+        {
+            if (model.RemovePanelCostWoodMaterial(selectedRemoveItemName, selectedRemoveThickness, s[0], s[1]))
+            {
+                removeItemStatus = "Entry removed from calculator database";
+                woodMaterialTypes = model.GetWoodPanelMaterialTypes();
+            }
+            else removeItemStatus = "Item could not be Removed. Please check SQL connection and input values.";
+        } else if (selectedRemoveType == "Laminate" && selectedRemoveItemName != null)
+        {
+            if (model.RemovePanelCostLaminateMaterial(selectedRemoveItemName))
+            {
+                addItemStatus = "Entry removed from calculator database";
+                laminateSidingTypes1 = model.GetLaminateSidingTypes();
+                laminateSidingTypes2 = model.GetLaminateSidingTypes();
+            }
+            else removeItemStatus = "Item could not be removed. Please check SQL connectin and input values.";
+        }
+
     }
     public void RemovePanelCostItem(string selection, string type, string width, string height, string thickness)
     {
