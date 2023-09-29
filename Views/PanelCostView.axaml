@@ -84,67 +84,70 @@
 
                     <StackPanel Spacing="5">
                         <TextBlock Text="Modify Database:" FontSize="20"/>
-                        <Grid Margin="5">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="20"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="20"/>
-                            </Grid.ColumnDefinitions>
-
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="20"/>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="20"/>
-                            </Grid.RowDefinitions>
-
-                            <TextBlock Grid.Row="1" Grid.Column="1" Text="Type:" />
-                            <ComboBox Grid.Row="1" Grid.Column="2" ItemsSource="{Binding addItemTypes}" SelectedValue="{Binding selectedAddItemType}"/>
-                            <TextBlock Grid.Row="2" Grid.Column="1"  Text="Name:" />
-                            <TextBox Grid.Row="2" Grid.Column="2"  Text="{Binding addItemType}" Watermark="Type..."/>
-                            <TextBlock Grid.Row="3" Grid.Column="1"  Text="Thickness:" />
-                            <TextBox Grid.Row="3" Grid.Column="2"  Text="{Binding addItemThickness}" Watermark="Thickness..."/>
-                            <TextBlock Grid.Row="4" Grid.Column="1"  Text="Width:" />
-                            <TextBox Grid.Row="4" Grid.Column="2"  Text="{Binding addItemWidth}" Watermark="Width..."/>
-                            <TextBlock Grid.Row="5" Grid.Column="1"  Text="Height:" />
-                            <TextBox Grid.Row="5" Grid.Column="2"  Text="{Binding addItemHeight}" Watermark="Height..."/>
-                            <TextBlock Grid.Row="6" Grid.Column="1"  Text="Price:" />
-                            <TextBox Grid.Row="6" Grid.Column="2"  Text="{Binding addItemPrice}" Watermark="Price..."/>
-                            <TextBlock Grid.Row="7" Grid.Column="1"  Text="User Initials:" />
-                            <TextBox Grid.Row="7" Grid.Column="2"  Text="{Binding addItemLastUpdatedBy}" Watermark="Initials..."/>
-                            <Button Grid.Row="8" Grid.Column="1" Command="{Binding AddPanelCostItem}" Content="Add Panel Cost DB Item"/>
-                            <TextBlock Grid.Row="9" Grid.Column="1" Text="{Binding addItemStatus}" />
+                        <StackPanel>
+                            <StackPanel Spacing="5" Orientation="Horizontal">
+                                <TextBlock  Text="Type:" />
+                                <ComboBox  ItemsSource="{Binding addItemTypes}" SelectedValue="{Binding selectedAddItemType}"/>
+                            </StackPanel>
+                            <StackPanel Spacing="5" Orientation="Horizontal">
+                                <TextBlock   Text="Name:" />
+                                <TextBox   Text="{Binding addItemType}" Watermark="Type..."/>
+                            </StackPanel>
+                            <StackPanel Spacing="5" Orientation="Horizontal">
+                                <TextBlock   Text="Thickness:" />
+                                <TextBox   Text="{Binding addItemThickness}" Watermark="Thickness..."/>
+                            </StackPanel>
+                            <StackPanel Spacing="5" Orientation="Horizontal">
+                                <TextBlock   Text="Width:" />
+                                <TextBox  Text="{Binding addItemWidth}" Watermark="Width..."/>
+                            </StackPanel>
+                            <StackPanel Spacing="5" Orientation="Horizontal">
+                                <TextBlock  Text="Height:" />
+                                <TextBox  Text="{Binding addItemHeight}" Watermark="Height..."/>
+                            </StackPanel>
+                            <StackPanel Spacing="5" Orientation="Horizontal">
+                                <TextBlock  Text="Price:" />
+                                <TextBox  Text="{Binding addItemPrice}" Watermark="Price..."/>
+                            </StackPanel>
+                            <StackPanel Spacing="5" Orientation="Horizontal">
+                                <TextBlock   Text="User Initials:" />
+                                <TextBox  Text="{Binding addItemLastUpdatedBy}" Watermark="Initials..."/>
+                            </StackPanel>
+                            <Button  Command="{Binding AddPanelCostItem}" Content="Add Panel Cost DB Item"/>
+                            <TextBlock  Text="{Binding addItemStatus}" />
+                        </StackPanel>
 
 
 
-                            <TextBlock Grid.Row="1" Grid.Column="3" Text="Type:" />
-                            <ComboBox Grid.Row="1" Grid.Column="4" ItemsSource="{Binding _removeTypes}" SelectedValue="{Binding selectedRemoveType}"/>
-                            <TextBlock Grid.Row="2" Grid.Column="3"  Text="Name:" />
-                            <ComboBox Grid.Row="2" Grid.Column="4"  ItemsSource="{Binding removeItemNames}" SelectedValue="{Binding selectedRemoveItemName}"/>
-                            <TextBlock Grid.Row="3" Grid.Column="3"  Text="Thickness:" />
-                            <TextBox Grid.Row="3" Grid.Column="4"  Text="{Binding addItemThickness}" Watermark="Thickness..."/>
-                            <TextBlock Grid.Row="4" Grid.Column="3"  Text="Width:" />
-                            <TextBox Grid.Row="4" Grid.Column="4"  Text="{Binding addItemWidth}" Watermark="Width..."/>
-                            <TextBlock Grid.Row="5" Grid.Column="3"  Text="Height:" />
-                            <TextBox Grid.Row="5" Grid.Column="4"  Text="{Binding addItemHeight}" Watermark="Height..."/>
-                            <TextBlock Grid.Row="6" Grid.Column="3"  Text="Price:" />
-                            <TextBox Grid.Row="6" Grid.Column="4"  Text="{Binding addItemPrice}" Watermark="Price..."/>
-                            <TextBlock Grid.Row="7" Grid.Column="3"  Text="User Initials:" />
-                            <TextBox Grid.Row="7" Grid.Column="4"  Text="{Binding addItemLastUpdatedBy}" Watermark="Initials..."/>
-                            <Button Grid.Row="8" Grid.Column="3" Command="{Binding RemoveSelectedItem}" Content="Remove Selected Item"/>
-                            <TextBlock Grid.Row="9" Grid.Column="3" Text="{Binding removeItemStatus}" />
-                            
-                        </Grid>
+                        <StackPanel>
+                            <TextBlock Text="Remove Item Section"/>
+                            <StackPanel Orientation="Horizontal" Spacing="5">
+                                <TextBlock  Text="Type:" />
+                                <ComboBox  ItemsSource="{Binding removeTypes}" SelectedValue="{Binding selectedRemoveType}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Spacing="5">
+                                <TextBlock   Text="Name:" />
+                                <ComboBox   ItemsSource="{Binding removeItemNames}" SelectedValue="{Binding selectedRemoveItemName}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Spacing="5">
+                                <TextBlock   Text="Thickness:" />
+                                <ComboBox   ItemsSource="{Binding removeThicknesses}" SelectedValue="{Binding selectedRemoveThickness}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Spacing="5">
+                                <TextBlock   Text="Dimensions:" />
+                                <ComboBox   ItemsSource="{Binding removeDimensions}" SelectedValue="{Binding selectedRemoveDimension}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Spacing="5">
+                                <TextBlock   Text="Price:" />
+                                <TextBox   Text="{Binding removePrice}" Watermark="Price..."/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Spacing="5">
+                                <TextBlock   Text="User Initials:" />
+                                <TextBox   Text="{Binding removeLastUpdatedBy}" Watermark="Initials..."/>
+                            </StackPanel>
+                            <Button  Command="{Binding RemoveSelectedItem}" Content="Remove Selected Item"/>
+                            <TextBlock  Text="{Binding removeItemStatus}" />
+                        </StackPanel>
 
                     </StackPanel>
                 </StackPanel>
