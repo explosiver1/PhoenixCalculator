@@ -1,0 +1,6 @@
+/Users/jared/Developer/PhoenixCalculator/bin/Debug/net6.0/win-x64/publish/PhoenixCalculator_Avallon.pdb
+/Users/jared/Developer/PhoenixCalculator/bin/Debug/net6.0/win-x64/publish/av_libglesv2.dll
+/Users/jared/Developer/PhoenixCalculator/bin/Debug/net6.0/win-x64/publish/libHarfBuzzSharp.dll
+/Users/jared/Developer/PhoenixCalculator/bin/Debug/net6.0/win-x64/publish/sni.dll
+/Users/jared/Developer/PhoenixCalculator/bin/Debug/net6.0/win-x64/publish/libSkiaSharp.dll
+/Users/jared/Developer/PhoenixCalculator/bin/Debug/net6.0/win-x64/publish/PhoenixCalculator_Avallon.exe

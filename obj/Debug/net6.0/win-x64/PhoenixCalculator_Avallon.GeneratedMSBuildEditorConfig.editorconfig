@@ -17,19 +17,19 @@ build_property.EnableSingleFileAnalyzer = true
 build_property.EnableTrimAnalyzer = 
 build_property.IncludeAllContentForSelfExtract = 
 build_property.RootNamespace = PhoenixCalculator_Avallon
-build_property.ProjectDir = C:\Users\jholston\Developer\PhoenixCalculator\
+build_property.ProjectDir = /Users/jared/Developer/PhoenixCalculator/
 
-[C:/Users/jholston/Developer/PhoenixCalculator/App.axaml]
+[/Users/jared/Developer/PhoenixCalculator/App.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[C:/Users/jholston/Developer/PhoenixCalculator/Views/DatabaseView.axaml]
+[/Users/jared/Developer/PhoenixCalculator/Views/DatabaseView.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[C:/Users/jholston/Developer/PhoenixCalculator/Views/MainWindow.axaml]
+[/Users/jared/Developer/PhoenixCalculator/Views/MainWindow.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[C:/Users/jholston/Developer/PhoenixCalculator/Views/PanelCostView.axaml]
+[/Users/jared/Developer/PhoenixCalculator/Views/PanelCostView.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[C:/Users/jholston/Developer/PhoenixCalculator/Views/SettingsView.axaml]
+[/Users/jared/Developer/PhoenixCalculator/Views/SettingsView.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml

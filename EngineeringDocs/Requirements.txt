@@ -1,0 +1,7 @@
+1.0 BF: The program must adapt the following formula. 
+    Panel Cost = Core Cost + Side 1 laminate + Side 2 laminate + layup charge. 
+1.1 BF: Layup charge is either for plywood or not for plywood. They are two different values.
+1.2 BF: Layup charge is only applied once per panel iff there is at least one laminated side. 
+1.3 BF: Core and Laminate costs are given in a size entered by user. 
+1.4 BF: Panel Cost should be calculated both for the given core dimension AND per square foot.
+1.5 IF: Layup costs for a particular size panel. They must be adjusted to square feet.

@@ -496,15 +496,22 @@ public class PanelCostViewModel : ReactiveObject
     }
     public void SplitPanelDimensions()
     {
-        if (selectedPanelDimensions != null && selectedPanelDimensions != "")
-        {
-            string[] pd = selectedPanelDimensions.Split('x');
-            if (pd[0] != null && pd[1] != null)
+        try {
+            if (selectedPanelDimensions != null && selectedPanelDimensions != "")
             {
-                panelWidth = pd[0];
-                panelHeight = pd[1];
+                string[] pd = selectedPanelDimensions.Split('x');
+                if (pd[0] != null && pd[1] != null)
+                {
+                    panelWidth = pd[0];
+                    panelHeight = pd[1];
+                }
             }
+        } catch (Exception e) {
+            calculatedPanelCost = "There was an error splitting the panel dimensions. Panel width and height set to 0.";
+            panelWidth = "0";
+            panelHeight = "0";
         }
+
 
     }
     public void UpdatePanelDimensions()
@@ -585,99 +592,12 @@ public class PanelCostViewModel : ReactiveObject
     public void UpdatePanelCost()
     {
         Console.WriteLine("UpdatePanelCost Called");
-        /* WoodPanel wp = model.GetWoodPanel(selectedWoodMaterialType, selectedThickness, panelHeight, panelWidth);
-         if (wp.price != Convert.ToSingle(woodPanelPrice))
-         {
-             wp.price = Convert.ToSingle(woodPanelPrice);
-
-         }
-         LaminateSiding lp1 = model.GetLaminateSiding(selectedLaminateSidingType1);
-         if (lp1.price != Convert.ToSingle(lam1Price) || lp1.sidingWidth + "x" + lp1.sidingHeight != lam1Dimensions)
-         {
-             lp1.price = Convert.ToSingle(lam1Price);
-             int num1, num2;
-             string[] str = lam1Dimensions.Split('x');
-             if (str.Length == 2 && int.TryParse(str[0], out num1) && int.TryParse(str[1], out num2))
-             {
-                 lp1.sidingWidth = num1;
-                 lp1.sidingHeight = num2;
-             } else
-             {
-                 lp1.sidingHeight = 1;
-                 lp1.sidingWidth = 1;
-             }
-
-         }
-         LaminateSiding lp2 = model.GetLaminateSiding(selectedLaminateSidingType2);
-         if (lp2.price != Convert.ToSingle(lam1Price) || lp2.sidingWidth + "x" + lp2.sidingHeight != lam2Dimensions)
-         {
-             lp2.price = Convert.ToSingle(lam1Price);
-             int num1, num2;
-             string[] str = lam2Dimensions.Split('x');
-             if (str.Length == 2 && int.TryParse(str[0], out num1) && int.TryParse(str[1], out num2))
-             {
-                 lp2.sidingWidth = num1;
-                 lp2.sidingHeight = num2;
-             }
-             else
-             {
-                 lp2.sidingHeight = 1;
-                 lp2.sidingWidth = 1;
-             }
-
-         } 
-
-
-         LaminateSiding layupCharge;
-         if (selectedLaminateSidingType1 == "None" && selectedLaminateSidingType2 == "None")
-         {
-             layupCharge = new LaminateSiding();
-             layupCharge.price = 0f;
-         }
-         else if (isPlywood)
-         {
-             layupCharge = model.GetLaminateSiding("Layup Charge Plywood");
-         }
-         else
-         {
-             layupCharge = model.GetLaminateSiding("Layup Charge Not Plywood");
-         }
-
-         if (wp.price > 900)
-         {
-             calculatedPanelCost = "Error, this panel material does not exist in this size.";
-         }
-         else if (lp1.price > 900)
-         {
-             calculatedPanelCost = "Error, Side 1 Laminate does not exist for this panel size.";
-         }
-         else if (lp2.price > 900)
-         {
-             calculatedPanelCost = "Error, Side 2 Laminate does not exist for this panel size.";
-         }
-         else if (layupCharge.price > 900)
-         {
-             calculatedPanelCost = "Error, Layup Charge out of range.";
-         }
-         else
-         {
-             //Adjusts prices to square foot. If the dimensions are 1x1, then it's already in square feet and remains the same.
-             float lamPrice1 = lp1.price / ((float)lp1.sidingWidth * (float)lp1.sidingHeight);
-             float lamPrice2 = lp2.price / (lp2.sidingWidth * lp2.sidingHeight);
-             float layup = layupCharge.price / (layupCharge.sidingWidth * layupCharge.sidingHeight);
-             float corePriceSQFT = wp.price / (wp.panelWidth * wp.panelHeight);
-             float cpc = wp.price + ((lamPrice1 + lamPrice2 + System.Convert.ToSingle(specialFinishPrice) + layup) * wp.panelHeight * wp.panelWidth);
-             float cpcs = corePriceSQFT + lamPrice1 + lamPrice2 + layup + System.Convert.ToSingle(specialFinishPrice);
-             //Final cost is per square foot.
-             calculatedPanelCost = String.Format("{0:N2}", cpc);
-             calculatedSQFTPanelCost = String.Format("{0:N2}", cpcs);
-         } */
         try
         {
             LaminateSiding layupCharge;
-            float lp1 = 0;
-            float lp2 = 0;
-            int sidesToLayup = 0;
+            float lp1 = 0f;
+            float lp2 = 0f;
+            float layup = 0f;
             string[] lam1Dims = lam1Dimensions.Split('x');
             int lam1Height = Convert.ToInt32(lam1Dims[0]);
             int lam1Width = Convert.ToInt32(lam1Dims[1]);
@@ -686,14 +606,6 @@ public class PanelCostViewModel : ReactiveObject
             int lam2Width = Convert.ToInt32(lam2Dims[1]);
             if (lam1Price != null) lp1 = Convert.ToSingle(lam1Price) / (lam1Height * lam1Width);
             if (lam2Price != null) lp2 = Convert.ToSingle(lam2Price) / (lam2Height * lam2Width);
-
-            /*if (lp1 < 0 && lp2 < 0)
-            {
-                layupCharge = new LaminateSiding();
-                layupCharge.price = 0f;
-            } */
-            if (lp1 > 0) sidesToLayup++;
-            if (lp2 > 0) sidesToLayup++;
             if (isPlywood)
             {
                 layupCharge = model.GetLaminateSiding("Layup Charge Plywood");
@@ -702,18 +614,27 @@ public class PanelCostViewModel : ReactiveObject
             {
                 layupCharge = model.GetLaminateSiding("Layup Charge Not Plywood");
             }
-            float layup = sidesToLayup * layupCharge.price;
-            float corePriceSQFT = Convert.ToSingle(woodPanelPrice) / (Convert.ToSingle(panelWidth) * Convert.ToSingle(panelHeight));
-            float cpc = (corePriceSQFT + lp1 + lp2 + System.Convert.ToSingle(specialFinishPrice)) * Convert.ToSingle(panelWidth) * Convert.ToSingle(panelHeight) + layup;
-            float cpcs = corePriceSQFT + lp1 + lp2 + layup + System.Convert.ToSingle(specialFinishPrice);
-
-            calculatedPanelCost = cpc.ToString();
-            calculatedSQFTPanelCost = cpcs.ToString();
-        } catch (Exception e)
+            if (lp1 > 0 || lp2 > 0) {
+                layup =  layupCharge.price / (layupCharge.sidingHeight * layupCharge.sidingWidth);
+            } 
+            if (Convert.ToInt32(panelWidth) == 0 || Convert.ToInt32(panelHeight) == 0) {
+                calculatedPanelCost = "Error: Panel Dimension not correctly set";
+                calculatedSQFTPanelCost = "";
+            } else {
+                float corePriceSQFT = Convert.ToSingle(woodPanelPrice) / (Convert.ToSingle(panelWidth) * Convert.ToSingle(panelHeight));
+                float cpcs = corePriceSQFT + lp1 + lp2 + layup + System.Convert.ToSingle(specialFinishPrice);
+                float cpc = cpcs * Convert.ToSingle(panelWidth) * Convert.ToSingle(panelHeight);
+                calculatedPanelCost = cpc.ToString();
+                calculatedSQFTPanelCost = cpcs.ToString();
+            }
+        } catch (IndexOutOfRangeException e) {
+            calculatedPanelCost = "Error: Laminate dimensions did not split correctly. Please check your inputs.";
+            calculatedSQFTPanelCost = "";
+        } 
+        catch (Exception e)
         {
             calculatedPanelCost = "Error: " + e.Message;
         }
-
     }
 
     public void UpdateRemoveItemNames()
