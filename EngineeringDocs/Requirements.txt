@@ -1,7 +1,22 @@
 1.0 BF: The program must adapt the following formula. 
     Panel Cost = Core Cost + Side 1 laminate + Side 2 laminate + layup charge. 
+    This formula assumes that all variables are in the correct dimensions. The program will need to adjust for disparate dimensions in items.
 1.1 BF: Layup charge is either for plywood or not for plywood. They are two different values.
 1.2 BF: Layup charge is only applied once per panel iff there is at least one laminated side. 
 1.3 BF: Core and Laminate costs are given in a size entered by user. 
 1.4 BF: Panel Cost should be calculated both for the given core dimension AND per square foot.
 1.5 IF: Layup costs for a particular size panel. They must be adjusted to square feet.
+1.6 UI: Database tables must be shown
+1.7 IS: DB Model must implement an interface to MSSQL.
+1.8 DF: Database entries must be retrieved as data objects representing a row. 
+1.9 BF: User selections should be limited to options that exist.
+1.10 FC: Credentials should not be stored. Database address and windows authentication boolean may be saved.
+1.11 UI: User selections shall be made with drop down lists except for boolean and float values.
+1.12 UI: Wood Panels should have elements to select material type, thickness, and dimensions.
+1.13 UI: Laminates should have elements to select material type. Other fields are populated from this alone. 
+1.14 DF: Wood panel schema shall be WoodPanel(type : string, thickness : float, width : int, height : int, price : float, initials : string, date : DateTime)
+1.15 DF: Laminate material schema shall be LaminateMaterial(type : string, width : int, height : int, price : float, initials : string, date : DateTime)
+1.16 DF: Dimensions exist as a string delimited by x within the application. ie, 4x8 is width 4 and height 8 split by x.
+1.17 BF: Prices and dimensions must be overridable as needed to prevent conflicting updates.
+1.18 IF: Data must update across the entire program when changes happen. 
+1.19 IF: Users must be able to create, update, and remove entries from the database.
