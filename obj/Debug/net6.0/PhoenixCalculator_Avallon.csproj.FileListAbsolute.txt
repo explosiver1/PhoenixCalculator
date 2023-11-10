@@ -424,3 +424,4 @@ C:/Users/jholston/Developer/PhoenixCalculator/obj/Debug/net6.0/ref/PhoenixCalcul
 /Users/jared/Developer/PhoenixCalculator/obj/Debug/net6.0/PhoenixCalculator_Avallon.csproj.CopyComplete
 /Users/jared/Developer/PhoenixCalculator/obj/Debug/net6.0/PhoenixCalculator_Avallon.genruntimeconfig.cache
 /Users/jared/Developer/PhoenixCalculator/obj/Debug/net6.0/ref/PhoenixCalculator_Avallon.dll
+/Users/jared/Developer/PhoenixCalculator/bin/Debug/net6.0/Newtonsoft.Json.dll

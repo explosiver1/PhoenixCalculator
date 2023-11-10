@@ -6,6 +6,8 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="PhoenixCalculator_Avallon.Views.DatabaseView"
              x:DataType="vm:DatabaseViewModel">
+    <StackPanel>
+    <Button Command="{Binding Refresh}" Content="Refresh"/>
     <StackPanel Orientation="Horizontal">
         <DataGrid Margin="20"
                   ItemsSource="{Binding woodPanels}"
@@ -48,5 +50,6 @@
                 <DataGridTextColumn Header="Last Updated By" Binding="{Binding lastUpdatedBy}"/>
             </DataGrid.Columns>
         </DataGrid>
+    </StackPanel>
     </StackPanel>
 </UserControl>

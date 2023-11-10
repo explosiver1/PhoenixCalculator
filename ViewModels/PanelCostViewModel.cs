@@ -4,12 +4,15 @@ using PhoenixCalculator_Avallon.Models;
 using ReactiveUI;
 using SkiaSharp;
 using System;
+using System.ComponentModel;
 
 namespace PhoenixCalculator_Avallon.ViewModels;
 
 public class PanelCostViewModel : ReactiveObject
 {
-    //
+    //Constants
+    int EXPIRATION_DATE = 30;
+
     public DBModel model;
     // public WoodPanel[] woodPanels = new WoodPanel[1000];
 
@@ -128,6 +131,8 @@ public class PanelCostViewModel : ReactiveObject
     }
 
     private string _lam1Price = "";
+    //This is used to check for overrides. 
+    private float lam1StoredPrice = 0.0f;
     public string lam1Price
     {
         get => _lam1Price;
@@ -158,6 +163,7 @@ public class PanelCostViewModel : ReactiveObject
     }
 
     private string _lam2Price = "";
+    private float lam2StoredPrice = 0.0f;
     public string lam2Price
     {
         get => _lam2Price;
@@ -312,6 +318,7 @@ public class PanelCostViewModel : ReactiveObject
     }
 
     private string _woodPanelPrice = "";
+    private float woodPanelStoredPrice = 0.0f;
     public string woodPanelPrice
     {
         get => _woodPanelPrice;
@@ -543,12 +550,13 @@ public class PanelCostViewModel : ReactiveObject
             dateLastUpdated = wp.date;
             lastUpdatedBy = wp.lastUpdatedBy;
             woodPanelPrice = wp.price.ToString();
+            woodPanelStoredPrice = wp.price;
         }
         else
         {
             dateLastUpdated = "";
             lastUpdatedBy = "";
-            
+            woodPanelStoredPrice = 0.0f;
         }
     }
 
@@ -560,6 +568,7 @@ public class PanelCostViewModel : ReactiveObject
             dateLam1LastUpdated = lp.date;
             lam1LastUpdatedBy = lp.lastUpdatedBy;
             lam1Price = lp.price.ToString();
+            lam1StoredPrice = lp.price;
             lam1Dimensions = lp.sidingWidth.ToString() + "x" + lp.sidingHeight.ToString();
         }
         else
@@ -567,6 +576,7 @@ public class PanelCostViewModel : ReactiveObject
             dateLam1LastUpdated = "";
             lam1LastUpdatedBy = "";
             lam1Price = "";
+            lam1StoredPrice = 0.0f;
             lam1Dimensions = "";
         }
     }
@@ -579,6 +589,7 @@ public class PanelCostViewModel : ReactiveObject
             dateLam2LastUpdated = lp.date;
             lam2LastUpdatedBy = lp.lastUpdatedBy;
             lam2Price = lp.price.ToString();
+            lam2StoredPrice = lp.price;
             lam2Dimensions = lp.sidingWidth.ToString() + "x" + lp.sidingHeight.ToString();
         }
         else
@@ -586,6 +597,7 @@ public class PanelCostViewModel : ReactiveObject
             dateLam2LastUpdated = "";
             lam2LastUpdatedBy = "";
             lam2Price = "";
+            lam2StoredPrice = 0.0f;
             lam2Dimensions = "";
         }
     }
@@ -594,18 +606,29 @@ public class PanelCostViewModel : ReactiveObject
         Console.WriteLine("UpdatePanelCost Called");
         try
         {
+            if (Convert.ToSingle(woodPanelPrice) <= 0.01) throw new ArgumentException("Core material should not cost less than $0.01.", woodPanelPrice);
+            float wpOverrideCheck = woodPanelStoredPrice - Convert.ToSingle(woodPanelPrice);
+            if (DateTime.Today.Subtract(Convert.ToDateTime(dateLastUpdated)).TotalDays > EXPIRATION_DATE && !(wpOverrideCheck < (-0.01) || wpOverrideCheck > 0.01)) throw new ArgumentException("Core material has expired. Lookup a new value.", dateLastUpdated);
             LaminateSiding layupCharge;
             float lp1 = 0f;
-            float lp2 = 0f;
             float layup = 0f;
             string[] lam1Dims = lam1Dimensions.Split('x');
             int lam1Height = Convert.ToInt32(lam1Dims[0]);
             int lam1Width = Convert.ToInt32(lam1Dims[1]);
+            float lp2 = 0f;
             string[] lam2Dims = lam1Dimensions.Split('x');
             int lam2Height = Convert.ToInt32(lam2Dims[0]);
             int lam2Width = Convert.ToInt32(lam2Dims[1]);
-            if (lam1Price != null) lp1 = Convert.ToSingle(lam1Price) / (lam1Height * lam1Width);
-            if (lam2Price != null) lp2 = Convert.ToSingle(lam2Price) / (lam2Height * lam2Width);
+            if (lam1Price != null) {
+                lp1 = Convert.ToSingle(lam1Price) / (lam1Height * lam1Width);
+                float l1OverrideCheck = lam1StoredPrice - Convert.ToSingle(lam1Price);
+                if (DateTime.Today.Subtract(Convert.ToDateTime(dateLam1LastUpdated)).TotalDays > EXPIRATION_DATE && !(l1OverrideCheck < (-0.01) || l1OverrideCheck > 0.01)) throw new ArgumentException("Laminate material 1 has expired. Lookup a new value.", dateLam1LastUpdated);
+            }
+            if (lam2Price != null) {
+                lp2 = Convert.ToSingle(lam2Price) / (lam2Height * lam2Width);
+                float l2OverrideCheck = lam2StoredPrice - Convert.ToSingle(lam2Price);
+                if (DateTime.Today.Subtract(Convert.ToDateTime(dateLam2LastUpdated)).TotalDays > EXPIRATION_DATE && !(l2OverrideCheck < (-0.01) || l2OverrideCheck > 0.01)) throw new ArgumentException("Laminate material 2 has expired. Lookup a new value.", dateLam2LastUpdated);
+            }
             if (isPlywood)
             {
                 layupCharge = model.GetLaminateSiding("Layup Charge Plywood");
@@ -630,7 +653,7 @@ public class PanelCostViewModel : ReactiveObject
         } catch (IndexOutOfRangeException e) {
             calculatedPanelCost = "Error: Laminate dimensions did not split correctly. Please check your inputs.";
             calculatedSQFTPanelCost = "";
-        } 
+        }
         catch (Exception e)
         {
             calculatedPanelCost = "Error: " + e.Message;

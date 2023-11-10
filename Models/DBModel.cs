@@ -1,5 +1,6 @@
 ﻿using Avalonia;
 using DynamicData;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -111,13 +112,15 @@ namespace PhoenixCalculator_Avallon.Models
                 path = Environment.ExpandEnvironmentVariables(path);
                 string fileName = path + @"\PHXCalcSettings.json";
                 string jsonString = File.ReadAllText(fileName);
+                /*
                 string[] data = jsonString.Split(' ');
                 settings.server = data[0];
                 settings.un = data[1];
                 settings.pw = data[2];
                 settings.winAuth = Convert.ToBoolean(data[3]);
+                */
+                settings = JsonConvert.DeserializeObject<Settings>(jsonString);
                 return true;
-
             }
             catch (Exception e)
             {
@@ -135,8 +138,10 @@ namespace PhoenixCalculator_Avallon.Models
                 string path = @"%AppData%";
                 path = Environment.ExpandEnvironmentVariables(path);
                 path = path + @"\PHXCalcSettings.json";
-                string data = settings.server + " " + settings.un + " " + settings.pw + " " + settings.winAuth.ToString();
+                //string data = settings.server + " " + settings.un + " " + settings.pw + " " + settings.winAuth.ToString();
+                string data = JsonConvert.SerializeObject(settings);
                 File.WriteAllText(path, data);
+                
                 return true;
             }
             else
@@ -144,44 +149,6 @@ namespace PhoenixCalculator_Avallon.Models
                 return false;
             }
         }
-
-        //This was a test function. Don't use it in any production code.
-        /*  public WoodPanel[] LoadPanelCostCalcWoodMaterials()
-          {
-              try
-              {
-                  using (SqlConnection cnn = new SqlConnection(sqlConnString))
-                  {
-                      using (SqlCommand selectDB = new SqlCommand("SELECT * FROM PanelCostWoodMaterial;", cnn))
-                      {
-                          cnn.Open();
-                          using (SqlDataReader reader = selectDB.ExecuteReader())
-                          {
-
-                              int i = 0;
-                               while (reader.Read())
-                               {
-                                  woodPanels[i] = new WoodPanel();
-                                   woodPanels[i].type = reader.GetString(1);
-                                   woodPanels[i].thickness = (float) reader.GetDouble(2);
-                                   woodPanels[i].panelWidth = reader.GetInt32(3);
-                                   woodPanels[i].panelHeight = reader.GetInt32(4);
-                                   woodPanels[i].price = (float) reader.GetDouble(5);
-                                   woodPanels[i].date = reader.GetString(6);
-                                   woodPanels[i].lastUpdatedBy = reader.GetString(7);
-                                   i++;
-                               //if (i == woodPanels.Length) woodPanels = WoodPanel.ExpandArray(woodPanels);
-                               }
-                          }
-                      }
-                      return woodPanels;
-                  }
-              } catch (Exception e)
-              {
-                  Console.WriteLine(e);
-                  return new WoodPanel[1];
-              }
-          } */
 
         public bool AddPanelCostWoodMaterial(string type, string thickness, string panelWidth, string panelHeight, string price, string date, string lastUpdatedBy)
         {

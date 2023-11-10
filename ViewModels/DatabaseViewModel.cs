@@ -1,5 +1,6 @@
 ﻿using PhoenixCalculator_Avallon.Models;
 using ReactiveUI;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
@@ -23,27 +24,33 @@ namespace PhoenixCalculator_Avallon.ViewModels
         public DatabaseViewModel()
         {
             model = DBModel.GetInstance();
+            Refresh();
+        }
+
+        public void Refresh()
+        {
+            Console.WriteLine("DatabaseViewModel.Refresh() Called");
             if (model.TestDBConn())
             {
                 connStatus = "Up";
                 //woodPanels = model.LoadPanelCostCalcWoodMaterials(woodPanels);
-                Refresh();
+                woodPanels = new ObservableCollection<WoodPanel>(model.GetWoodPanelTable());
+                laminates = new ObservableCollection<LaminateSiding>(model.GetLaminateTable());
 
             }
             else
             {
                 connStatus = "False";
-                woodPanels = new ObservableCollection<WoodPanel>();
-                woodPanels.Add(new WoodPanel());
-                laminates = new ObservableCollection<LaminateSiding>();
-                laminates.Add(new LaminateSiding());
+                AssignDefaults();
             }
         }
 
-        public void Refresh()
-        {
-            woodPanels = new ObservableCollection<WoodPanel>(model.GetWoodPanelTable());
-            laminates = new ObservableCollection<LaminateSiding>(model.GetLaminateTable());
+        public void AssignDefaults() {
+            Console.WriteLine("DatabaseViewModel.AssignDefaults Called");
+            woodPanels = new ObservableCollection<WoodPanel>();
+            woodPanels.Add(new WoodPanel());
+            laminates = new ObservableCollection<LaminateSiding>();
+            laminates.Add(new LaminateSiding());
         }
 
     }

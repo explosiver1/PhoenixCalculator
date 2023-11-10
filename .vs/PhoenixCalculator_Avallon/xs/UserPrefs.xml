@@ -6,10 +6,23 @@
         <State name="__root__">
           <Node name="PhoenixCalculator_Avallon" expanded="True">
             <Node name="PhoenixCalculator_Avallon" expanded="True">
+              <Node name="Dependencies" expanded="True">
+                <Node name="FrameworkReferences" expanded="True" />
+                <Node name="PackageDependencies" expanded="True" />
+              </Node>
+              <Node name="Assets" expanded="True" />
+              <Node name="EngineeringDocs" expanded="True" />
               <Node name="Models" expanded="True" />
               <Node name="ViewModels" expanded="True">
-                <Node name="PanelCostViewModel.cs" selected="True" />
+                <Node name="DatabaseViewModel.cs" selected="True" />
               </Node>
+              <Node name="Views" expanded="True">
+                <Node name="DatabaseView.axaml" expanded="True" />
+                <Node name="MainWindow.axaml" expanded="True" />
+                <Node name="PanelCostView.axaml" expanded="True" />
+                <Node name="SettingsView.axaml" expanded="True" />
+              </Node>
+              <Node name="App.axaml" expanded="True" />
             </Node>
           </Node>
         </State>
