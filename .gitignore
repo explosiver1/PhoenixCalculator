@@ -1278,5 +1278,6 @@ bin/Release/net6.0/win-x64/publish/PhoenixCalculator_Avallon.exe
 bin/Release/net6.0/win-x64/publish/PhoenixCalculator_Avallon.pdb
 bin/Release/net6.0/win-x64/publish/sni.dll
 PHXCalcSettings.json
+%AppData%/PHXCalcSettings.json
 install.bat
 bin/Release/net6.0/win-x64/.DS_Store
