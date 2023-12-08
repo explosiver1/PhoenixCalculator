@@ -13,13 +13,273 @@ public class PanelCostViewModel : ReactiveObject
 {
     //Constants
     int EXPIRATION_DATE = 30;
-
+    //DB Reference
     public DBModel model;
     // public WoodPanel[] woodPanels = new WoodPanel[1000];
 
     //Spaghetti of backing and public fields. The public fields have a special setter that calls a notification function from ReactiveUI that enables Bindings to work correctly
+    //I've reorganized with sections mirroring the UI.
+    //Use ctrl+f to get to the section and search from
+    // I also use ctrl+k + ctrl+,
 
-    private string _addItemHeight = "";
+    //General
+    private string _specialFinishPrice = "0";
+    public string specialFinishPrice
+    {
+        get => _specialFinishPrice;
+        set => this.RaiseAndSetIfChanged(ref _specialFinishPrice, value);
+    }
+    private string _calculatedPanelCost = "";
+    public string calculatedPanelCost
+    {
+        get => _calculatedPanelCost;
+        set => this.RaiseAndSetIfChanged(ref _calculatedPanelCost, value);
+    }
+    private string _calculatedSQFTPanelCost = "";
+    public string calculatedSQFTPanelCost
+    {
+        get => _calculatedSQFTPanelCost;
+        set => this.RaiseAndSetIfChanged(ref _calculatedSQFTPanelCost, value);
+    }
+    private bool _isPlywood = false;
+    public bool isPlywood
+    {
+        get => _isPlywood;
+        set => this.RaiseAndSetIfChanged(ref _isPlywood, value);
+    }
+    private string _connStatus = "";
+    public string connStatus
+    {
+        get => _connStatus;
+        set => this.RaiseAndSetIfChanged(ref _connStatus, value);
+    }
+
+    //Core Material
+     private string _dateLastUpdated = "";
+    public string dateLastUpdated
+    {
+        get => _dateLastUpdated;
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _dateLastUpdated, value);
+        }
+    }
+     private string _lastUpdatedBy = "";
+    public string lastUpdatedBy
+    {
+        get => _lastUpdatedBy;
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _lastUpdatedBy, value);
+        }
+    }
+
+    private string[] _panelDimensions = new string[1];
+    public string[] panelDimensions
+    {
+        get => _panelDimensions;
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _panelDimensions, value);
+        }
+    }
+
+    private string _panelHeight = "";
+    public string panelHeight
+    {
+        get => _panelHeight;
+        set => this.RaiseAndSetIfChanged(ref _panelHeight, value);
+    }
+
+    private string _panelWidth = "";
+    public string panelWidth
+    {
+        get => _panelWidth;
+        set => this.RaiseAndSetIfChanged(ref _panelWidth, value);
+    }
+    private string[] _thicknesses = new string[1];
+    public string[] thicknesses
+    {
+        get => _thicknesses;
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _thicknesses, value);
+        }
+    }
+    private string[] _woodMaterialTypes = new string[1];
+    public string[] woodMaterialTypes
+    {
+        get => _woodMaterialTypes;
+        set => this.RaiseAndSetIfChanged(ref _woodMaterialTypes, value);
+    }
+    private string _woodPanelPrice = "";
+    private float woodPanelStoredPrice = 0.0f;
+    public string woodPanelPrice
+    {
+        get => _woodPanelPrice;
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _woodPanelPrice, value);
+        }
+    }
+     private string _selectedPanelDimensions = "";
+    public string selectedPanelDimensions
+    {
+        get => _selectedPanelDimensions;
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _selectedPanelDimensions, value);
+            SplitPanelDimensions();
+            UpdateWP();
+        }
+    }
+    private string _selectedThickness = "";
+    public string selectedThickness
+    {
+        get => _selectedThickness;
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _selectedThickness, value);
+            UpdatePanelDimensions();
+            UpdateWP();
+        }
+    }
+    private string _selectedWoodMaterialType = "";
+    public string selectedWoodMaterialType
+    {
+        get => _selectedWoodMaterialType;
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _selectedWoodMaterialType, value);
+            UpdatePanelThicknesses();
+            UpdateWP();
+        }
+    }
+
+    //Laminate 1
+     private string _dateLam1LastUpdated = "";
+    public string dateLam1LastUpdated
+    {
+        get => _dateLam1LastUpdated;
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _dateLam1LastUpdated, value);
+        }
+    }
+     private string _lam1Dimensions = "";
+    public string lam1Dimensions
+    {
+        get => _lam1Dimensions;
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _lam1Dimensions, value);
+        }
+    }
+
+    private string _lam1LastUpdatedBy = "";
+    public string lam1LastUpdatedBy
+    {
+        get => _lam1LastUpdatedBy;
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _lam1LastUpdatedBy, value);
+        }
+    }
+
+    private string _lam1Price = "";
+    //This is used to check for overrides. 
+    private float lam1StoredPrice = 0.0f;
+    public string lam1Price
+    {
+        get => _lam1Price;
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _lam1Price, value);
+        }
+    }
+     private string[] _laminateSidingTypes1 = new string[1];
+    public string[] laminateSidingTypes1
+    {
+        get => _laminateSidingTypes1;
+        set => this.RaiseAndSetIfChanged(ref _laminateSidingTypes1, value);
+    }
+    private string _selectedLaminateSidingType1 = "";
+    public string selectedLaminateSidingType1
+    {
+        get => _selectedLaminateSidingType1;
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _selectedLaminateSidingType1, value);
+            UpdateLamSide1();
+        }
+    }
+
+    //Laminate 2
+
+    private string _dateLam2LastUpdated = "";
+    public string dateLam2LastUpdated
+    {
+        get => _dateLam2LastUpdated;
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _dateLam2LastUpdated, value);
+        }
+    }
+
+    private string _lam2Dimensions = "";
+    public string lam2Dimensions
+    {
+        get => _lam2Dimensions;
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _lam2Dimensions, value);
+        }
+    }
+
+    private string _lam2LastUpdatedBy = "";
+    public string lam2LastUpdatedBy
+    {
+        get => _lam2LastUpdatedBy;
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _lam2LastUpdatedBy, value);
+        }
+    }
+
+    private string _lam2Price = "";
+    private float lam2StoredPrice = 0.0f;
+    public string lam2Price
+    {
+        get => _lam2Price;
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _lam2Price, value);
+        }
+    }
+    private string[] _laminateSidingTypes2 = new string[1];
+    public string[] laminateSidingTypes2
+    {
+        get => _laminateSidingTypes2;
+        set => this.RaiseAndSetIfChanged(ref _laminateSidingTypes2, value);
+    }
+    private string _selectedLaminateSidingType2 = "";
+    public string selectedLaminateSidingType2
+    {
+        get => _selectedLaminateSidingType2;
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _selectedLaminateSidingType2, value);
+            UpdateLamSide2();
+        }
+    }
+
+   
+
+    
+
+    //Add Item Panel
+
+     private string _addItemHeight = "";
     public string addItemHeight
     {
         get => _addItemHeight;
@@ -73,287 +333,12 @@ public class PanelCostViewModel : ReactiveObject
         get => _addItemWidth;
         set => this.RaiseAndSetIfChanged(ref _addItemWidth, value);
     }
-
-    private string _connStatus = "";
-    public string connStatus
-    {
-        get => _connStatus;
-        set => this.RaiseAndSetIfChanged(ref _connStatus, value);
-    }
-
-    private string _dateLam1LastUpdated = "";
-    public string dateLam1LastUpdated
-    {
-        get => _dateLam1LastUpdated;
-        set
-        {
-            this.RaiseAndSetIfChanged(ref _dateLam1LastUpdated, value);
-        }
-    }
-
-    private string _dateLam2LastUpdated = "";
-    public string dateLam2LastUpdated
-    {
-        get => _dateLam2LastUpdated;
-        set
-        {
-            this.RaiseAndSetIfChanged(ref _dateLam2LastUpdated, value);
-        }
-    }
-
-    private string _dateLastUpdated = "";
-    public string dateLastUpdated
-    {
-        get => _dateLastUpdated;
-        set
-        {
-            this.RaiseAndSetIfChanged(ref _dateLastUpdated, value);
-        }
-    }
-
-    private string _lam1Dimensions = "";
-    public string lam1Dimensions
-    {
-        get => _lam1Dimensions;
-        set
-        {
-            this.RaiseAndSetIfChanged(ref _lam1Dimensions, value);
-        }
-    }
-
-    private string _lam1LastUpdatedBy = "";
-    public string lam1LastUpdatedBy
-    {
-        get => _lam1LastUpdatedBy;
-        set
-        {
-            this.RaiseAndSetIfChanged(ref _lam1LastUpdatedBy, value);
-        }
-    }
-
-    private string _lam1Price = "";
-    //This is used to check for overrides. 
-    private float lam1StoredPrice = 0.0f;
-    public string lam1Price
-    {
-        get => _lam1Price;
-        set
-        {
-            this.RaiseAndSetIfChanged(ref _lam1Price, value);
-        }
-    }
-
-    private string _lam2Dimensions = "";
-    public string lam2Dimensions
-    {
-        get => _lam2Dimensions;
-        set
-        {
-            this.RaiseAndSetIfChanged(ref _lam2Dimensions, value);
-        }
-    }
-
-    private string _lam2LastUpdatedBy = "";
-    public string lam2LastUpdatedBy
-    {
-        get => _lam2LastUpdatedBy;
-        set
-        {
-            this.RaiseAndSetIfChanged(ref _lam2LastUpdatedBy, value);
-        }
-    }
-
-    private string _lam2Price = "";
-    private float lam2StoredPrice = 0.0f;
-    public string lam2Price
-    {
-        get => _lam2Price;
-        set
-        {
-            this.RaiseAndSetIfChanged(ref _lam2Price, value);
-        }
-    }
-
-    private string[] _laminateSidingTypes1 = new string[1];
-    public string[] laminateSidingTypes1
-    {
-        get => _laminateSidingTypes1;
-        set => this.RaiseAndSetIfChanged(ref _laminateSidingTypes1, value);
-    }
-
-    private string[] _laminateSidingTypes2 = new string[1];
-    public string[] laminateSidingTypes2
-    {
-        get => _laminateSidingTypes2;
-        set => this.RaiseAndSetIfChanged(ref _laminateSidingTypes2, value);
-    }
-
-    private string _lastUpdatedBy = "";
-    public string lastUpdatedBy
-    {
-        get => _lastUpdatedBy;
-        set
-        {
-            this.RaiseAndSetIfChanged(ref _lastUpdatedBy, value);
-        }
-    }
-
-    private string[] _panelDimensions = new string[1];
-    public string[] panelDimensions
-    {
-        get => _panelDimensions;
-        set
-        {
-            this.RaiseAndSetIfChanged(ref _panelDimensions, value);
-        }
-    }
-
-    private string _panelHeight = "";
-    public string panelHeight
-    {
-        get => _panelHeight;
-        set => this.RaiseAndSetIfChanged(ref _panelHeight, value);
-    }
-
-    private string _panelWidth = "";
-    public string panelWidth
-    {
-        get => _panelWidth;
-        set => this.RaiseAndSetIfChanged(ref _panelWidth, value);
-    }
-
-    private string _removeItemStatus = "";
-    public string removeItemStatus
-    {
-        get => _removeItemStatus;
-        set => this.RaiseAndSetIfChanged(ref _removeItemStatus, value);
-    }
-
-    private string _selectedAddItemType = "";
+     private string _selectedAddItemType = "";
     public string selectedAddItemType
     {
         get => _selectedAddItemType;
         set => this.RaiseAndSetIfChanged(ref _selectedAddItemType, value);
     }
-
-    private string _selectedLaminateSidingType1 = "";
-    public string selectedLaminateSidingType1
-    {
-        get => _selectedLaminateSidingType1;
-        set
-        {
-            this.RaiseAndSetIfChanged(ref _selectedLaminateSidingType1, value);
-            UpdateLamSide1();
-        }
-    }
-
-    private string _selectedLaminateSidingType2 = "";
-    public string selectedLaminateSidingType2
-    {
-        get => _selectedLaminateSidingType2;
-        set
-        {
-            this.RaiseAndSetIfChanged(ref _selectedLaminateSidingType2, value);
-            UpdateLamSide2();
-        }
-    }
-
-    private string _selectedPanelDimensions = "";
-    public string selectedPanelDimensions
-    {
-        get => _selectedPanelDimensions;
-        set
-        {
-            this.RaiseAndSetIfChanged(ref _selectedPanelDimensions, value);
-            SplitPanelDimensions();
-            UpdateWP();
-        }
-    }
-
-    private string _selectedThickness = "";
-    public string selectedThickness
-    {
-        get => _selectedThickness;
-        set
-        {
-            this.RaiseAndSetIfChanged(ref _selectedThickness, value);
-            UpdatePanelDimensions();
-            UpdateWP();
-        }
-    }
-
-    private string _selectedWoodMaterialType = "";
-    public string selectedWoodMaterialType
-    {
-        get => _selectedWoodMaterialType;
-        set
-        {
-            this.RaiseAndSetIfChanged(ref _selectedWoodMaterialType, value);
-            UpdatePanelThicknesses();
-            UpdateWP();
-        }
-    }
-
-    private string _specialFinishPrice = "0";
-    public string specialFinishPrice
-    {
-        get => _specialFinishPrice;
-        set => this.RaiseAndSetIfChanged(ref _specialFinishPrice, value);
-    }
-
-    private string[] _thicknesses = new string[1];
-    public string[] thicknesses
-    {
-        get => _thicknesses;
-        set
-        {
-            this.RaiseAndSetIfChanged(ref _thicknesses, value);
-        }
-    }
-
-    private string[] _woodMaterialTypes = new string[1];
-    public string[] woodMaterialTypes
-    {
-        get => _woodMaterialTypes;
-        set => this.RaiseAndSetIfChanged(ref _woodMaterialTypes, value);
-    }
-
-    private string _woodPanelPrice = "";
-    private float woodPanelStoredPrice = 0.0f;
-    public string woodPanelPrice
-    {
-        get => _woodPanelPrice;
-        set
-        {
-            this.RaiseAndSetIfChanged(ref _woodPanelPrice, value);
-        }
-    }
-
-
-
-
-    private string _calculatedPanelCost = "";
-    public string calculatedPanelCost
-    {
-        get => _calculatedPanelCost;
-        set => this.RaiseAndSetIfChanged(ref _calculatedPanelCost, value);
-    }
-
-    private string _calculatedSQFTPanelCost = "";
-    public string calculatedSQFTPanelCost
-    {
-        get => _calculatedSQFTPanelCost;
-        set => this.RaiseAndSetIfChanged(ref _calculatedSQFTPanelCost, value);
-    }
-
-    private bool _isPlywood = false;
-    public bool isPlywood
-    {
-        get => _isPlywood;
-        set => this.RaiseAndSetIfChanged(ref _isPlywood, value);
-    }
-
-
 
     //Remove Item Panel 
     
@@ -471,7 +456,14 @@ public class PanelCostViewModel : ReactiveObject
             this.RaiseAndSetIfChanged(ref _removeLastUpdatedBy, value);
         }
     }
+     private string _removeItemStatus = "";
+    public string removeItemStatus
+    {
+        get => _removeItemStatus;
+        set => this.RaiseAndSetIfChanged(ref _removeItemStatus, value);
+    }
 
+    //Constructor
     public PanelCostViewModel()
     {
         removeTypes = new string[] { "Wood Panel", "Laminate" };
@@ -490,6 +482,8 @@ public class PanelCostViewModel : ReactiveObject
         }
     }
 
+
+    //Public Methods
     public void Refresh()
     {
         woodMaterialTypes = model.GetWoodPanelMaterialTypes();
