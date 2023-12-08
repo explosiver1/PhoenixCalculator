@@ -6,10 +6,13 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="PhoenixCalculator_Avallon.Views.DatabaseView"
              x:DataType="vm:DatabaseViewModel">
+    <ScrollViewer>
+    <ScrollViewer HorizontalScrollBarVisibility="Auto">
     <StackPanel>
-    <Button Command="{Binding Refresh}" Content="Refresh"/>
+    <Button x:Name="btnRefresh" Command="{Binding Refresh}" Content="Refresh"/>
     <StackPanel Orientation="Horizontal">
         <DataGrid Margin="20"
+                  x:Name="gridPanels"
                   ItemsSource="{Binding woodPanels}"
                   IsReadOnly="True"
                   CanUserResizeColumns="True"
@@ -31,6 +34,7 @@
             </DataGrid.Columns>
         </DataGrid>
         <DataGrid Margin="20"
+                  x:Name="gridLaminates"
                   ItemsSource="{Binding laminates}"
                   IsReadOnly="True"
                   CanUserResizeColumns="True"
@@ -52,4 +56,6 @@
         </DataGrid>
     </StackPanel>
     </StackPanel>
+    </ScrollViewer>
+    </ScrollViewer>
 </UserControl>

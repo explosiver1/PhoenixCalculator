@@ -98,7 +98,7 @@ namespace PhoenixCalculator_Avallon.Models
                 catch (Exception e)
                 {
                     Console.WriteLine(e);
-                    Console.WriteLine("We dun goofed");
+                    Console.WriteLine("SQL Connection failed");
                 }
             }
             return false;
@@ -582,18 +582,6 @@ namespace PhoenixCalculator_Avallon.Models
         public string date { get; set; } = "1/1/1900";
         public string lastUpdatedBy { get; set; } = "System";
 
-        /*public static WoodPanel[] ExpandArray(WoodPanel[] arr)
-        {
-            //Performs dynamic array expansion
-            int newBound = arr.Length * 2;
-            WoodPanel[] newArr = new WoodPanel[newBound];
-
-            for (int i = 0; i < arr.Length; i++)
-            {
-                newArr[i] = arr[i];
-            }
-            return newArr; 
-        }*/
     }
 
     public class LaminateSiding
