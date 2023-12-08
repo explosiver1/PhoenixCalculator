@@ -5,6 +5,7 @@ using ReactiveUI;
 using SkiaSharp;
 using System;
 using System.ComponentModel;
+using System.Data.Common;
 
 namespace PhoenixCalculator_Avallon.ViewModels;
 
@@ -471,9 +472,6 @@ public class PanelCostViewModel : ReactiveObject
         }
     }
 
-
-
-
     public PanelCostViewModel()
     {
         removeTypes = new string[] { "Wood Panel", "Laminate" };
@@ -719,7 +717,7 @@ public class PanelCostViewModel : ReactiveObject
 
     public void AddPanelCostItem()
     {
-        string date = DateTime.Now.ToString("dd-MM-yyyy");
+        string date = DateTime.Now.ToString("MM-dd-yyyy");
         if (selectedAddItemType == "Wood Panel")
         {
             if (addItemType == "" || (addItemHeight != "8" && addItemHeight != "12") || (addItemWidth != "4" && addItemWidth != "5") || addItemPrice == "" || addItemLastUpdatedBy == "") addItemStatus = "Invalid Input. Please check your values.";

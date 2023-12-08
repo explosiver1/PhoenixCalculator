@@ -1281,3 +1281,6 @@ PHXCalcSettings.json
 %AppData%/PHXCalcSettings.json
 install.bat
 bin/Release/net6.0/win-x64/.DS_Store
+bin/Debug/net6.0/Newtonsoft.Json.dll
+bin/Debug/net6.0/PhoenixCalculator_Avallon.exe
+bin/Release/net6.0/win-x64/mscordaccore_amd64_amd64_6.0.2023.32017.dll

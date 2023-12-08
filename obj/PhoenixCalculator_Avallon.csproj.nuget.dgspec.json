@@ -1,25 +1,32 @@
 {
   "format": 1,
   "restore": {
-    "/Users/jared/Developer/PhoenixCalculator/PhoenixCalculator_Avallon.csproj": {}
+    "C:\\Users\\jholston\\Developer\\PhoenixCalculator\\PhoenixCalculator_Avallon.csproj": {}
   },
   "projects": {
-    "/Users/jared/Developer/PhoenixCalculator/PhoenixCalculator_Avallon.csproj": {
+    "C:\\Users\\jholston\\Developer\\PhoenixCalculator\\PhoenixCalculator_Avallon.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/jared/Developer/PhoenixCalculator/PhoenixCalculator_Avallon.csproj",
+        "projectUniqueName": "C:\\Users\\jholston\\Developer\\PhoenixCalculator\\PhoenixCalculator_Avallon.csproj",
         "projectName": "PhoenixCalculator_Avallon",
-        "projectPath": "/Users/jared/Developer/PhoenixCalculator/PhoenixCalculator_Avallon.csproj",
-        "packagesPath": "/Users/jared/.nuget/packages/",
-        "outputPath": "/Users/jared/Developer/PhoenixCalculator/obj/",
+        "projectPath": "C:\\Users\\jholston\\Developer\\PhoenixCalculator\\PhoenixCalculator_Avallon.csproj",
+        "packagesPath": "C:\\Users\\jholston\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\jholston\\Developer\\PhoenixCalculator\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "/Users/jared/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\jholston\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -47,10 +54,6 @@
               "version": "[11.0.1, )"
             },
             "Avalonia.Desktop": {
-              "target": "Package",
-              "version": "[11.0.1, )"
-            },
-            "Avalonia.Diagnostics": {
               "target": "Package",
               "version": "[11.0.1, )"
             },
@@ -86,12 +89,31 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Runtime.win-x64",
+              "version": "[6.0.20, 6.0.20]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Runtime.win-x64",
+              "version": "[6.0.20, 6.0.20]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Runtime.win-x64",
+              "version": "[6.0.20, 6.0.20]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.203/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.306\\RuntimeIdentifierGraph.json"
+        }
+      },
+      "runtimes": {
+        "win-x64": {
+          "#import": []
         }
       }
     }
