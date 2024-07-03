@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PhoenixCalculator_Avallon")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+03df532b9ab9c01ff2cefe27aa55d97aa5981c63")]
 [assembly: System.Reflection.AssemblyProductAttribute("PhoenixCalculator_Avallon")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PhoenixCalculator_Avallon")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

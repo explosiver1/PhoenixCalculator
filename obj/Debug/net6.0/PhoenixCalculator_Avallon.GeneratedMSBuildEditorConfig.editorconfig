@@ -14,6 +14,8 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = PhoenixCalculator_Avallon
 build_property.ProjectDir = C:\Users\jholston\Developer\PhoenixCalculator\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
 
 [C:/Users/jholston/Developer/PhoenixCalculator/App.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
